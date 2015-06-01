@@ -41,16 +41,6 @@ def make_path(PATH, memberId, courseId, problemId, problemName):
 def make_problem_full_name(problemId, problemName):
     return '%s_%s' %(problemId, problemName)
 
-def get_case_count(problemCasesPath, isAllInputCaseInOneFile):
-    caseCount = len(glob.glob(os.path.join(problemCasesPath, '*.*')))/2
-    
-    if caseCount > 1:
-        if isAllInputCaseInOneFile == ENUMResources.const.FALSE:
-            caseCount -= 1
-        else:
-            caseCount = 1
-    return caseCount
-
 def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
     fileIndex = 1
     sumOfSubmittedFileSize = 0
@@ -65,6 +55,7 @@ def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
         fileIndex += 1
         sumOfSubmittedFileSize += fileSize
     
+    
     return sumOfSubmittedFileSize
         
 def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmittedFileSize, problemName, filePath, tempPath):
@@ -74,7 +65,6 @@ def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmitt
     insert_to_submissions(courseId, memberId, problemId, submissionCount, solutionCheckCount, viewCount, usedLanguageIndex, sumOfSubmittedFileSize)
     problemPath, limitedTime, limitedMemory, solutionCheckType, isAllInputCaseInOneFile, numberOfTestCase, problemCasesPath = get_problem_info(problemId, problemName)
     problemFullName = make_problem_full_name(problemId, problemName)
-            
     Grade.delay(str(filePath),
                 str(problemPath),
                 str(memberId),
@@ -91,7 +81,7 @@ def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmitt
 
     dao.commit()
     
-    flash(OtherResources.const.SUBMISSION_SUCCESS)
+    flash(LanguageResources.const.SubmissionSuccess[session['language']])
     os.system("rm -rf %s" % filePath)
     os.rename(tempPath, filePath)
     
@@ -155,6 +145,7 @@ def to_process_uploaded_files(courseId, problemId, problemName, pageNum, browser
         submit_error(tempPath, courseId, pageNum, 'fileError', browserName, browserVersion)
     except Exception as e:
         dao.rollback()
+        print e
         submit_error(tempPath, courseId, pageNum, 'dbError', browserName, browserVersion)
         
     time.sleep(0.4)
