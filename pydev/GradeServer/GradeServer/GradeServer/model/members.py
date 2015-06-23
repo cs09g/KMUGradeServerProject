@@ -11,26 +11,31 @@
 
 
 from sqlalchemy import Column
-from sqlalchemy.dialects.mysql import DATETIME, VARCHAR, TEXT, SET
+from sqlalchemy.dialects.mysql import DATETIME, VARCHAR, TEXT, SET, ENUM
 
 from GradeServer.model import Base
 
 from GradeServer.resource.setResources import SETResources
+from GradeServer.resource.enumResources import ENUMResources
 
 class Members (Base) :
     
     __tablename__ ='Members'
     
-    memberId =Column (VARCHAR (20), primary_key =True, nullable =False)
-    password =Column (VARCHAR (1024), nullable =False)
-    memberName =Column (VARCHAR (1024), nullable =False)
-    contactNumber =Column (VARCHAR  (20), nullable =True)
-    emailAddress =Column (VARCHAR  (1024), nullable =True)
-    authority =Column (SET (SETResources.const.SERVER_ADMINISTRATOR,
-                            SETResources.const.COURSE_ADMINISTRATOR,
-                            SETResources.const.USER),
-                       default = SETResources.const.USER,
+    memberId = Column (VARCHAR (20), primary_key =True, nullable =False)
+    password = Column (VARCHAR (1024), nullable =False)
+    memberName = Column (VARCHAR (1024), nullable =False)
+    contactNumber = Column (VARCHAR  (20), nullable =True)
+    emailAddress = Column (VARCHAR  (1024), nullable =True)
+    authority = Column (SET (SETResources().const.SERVER_ADMINISTRATOR,
+                            SETResources().const.COURSE_ADMINISTRATOR,
+                            SETResources().const.USER),
+                       default = SETResources().const.USER,
                        nullable =False)
-    signedInDate =Column (DATETIME, nullable =False)
-    lastAccessDate =Column (DATETIME, nullable =True)
-    comment =Column (TEXT, nullable =True)   
+    signedInDate = Column (DATETIME, nullable =False)
+    lastAccessDate = Column (DATETIME, nullable =True)
+    comment = Column (TEXT, nullable =True)   
+    isDeleted = Column (ENUM (ENUMResources().const.TRUE, 
+                              ENUMResources().const.FALSE),
+                        default = ENUMResources().const.FALSE,
+                        nullable = False)

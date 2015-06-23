@@ -11,19 +11,34 @@
 
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import DATETIME, VARCHAR, TEXT
+from sqlalchemy.dialects.mysql import DATETIME, VARCHAR, TEXT, ENUM
 
 from GradeServer.model import Base
 from GradeServer.model.members import Members
 
+from GradeServer.resource.enumResources import ENUMResources
+
 class RegisteredCourses (Base) :
     
-    __tablename__ ="RegisteredCourses"
+    __tablename__ = "RegisteredCourses"
     
     # YYYY학기(1)과목(3)분반(2)
-    courseId =Column (VARCHAR (10), primary_key =True, nullable =False)
-    courseName =Column (VARCHAR (1024), nullable =False)
-    courseDescription =Column (TEXT, nullable =True)
-    startDateOfCourse =Column (DATETIME, nullable =True)
-    endDateOfCourse =Column (DATETIME, nullable =True)
-    courseAdministratorId =Column (VARCHAR (20), ForeignKey(Members.memberId, onupdate ="CASCADE", ondelete ="CASCADE"), nullable =False)
+    courseId = Column(VARCHAR(10), 
+                       primary_key = True, 
+                       nullable = False)
+    courseName = Column(VARCHAR(1024), 
+                        nullable = False)
+    courseDescription = Column(TEXT, 
+                               nullable = True)
+    startDateOfCourse = Column(DATETIME, 
+                               nullable = True)
+    endDateOfCourse = Column(DATETIME, 
+                             nullable = True)
+    courseAdministratorId = Column(VARCHAR(20), 
+                                   ForeignKey(Members.memberId, 
+                                              onupdate = "CASCADE", 
+                                              ondelete = "CASCADE"), 
+                                   nullable = False)
+    isTeam = Column(ENUM(ENUMResources().const.TRUE,
+                         ENUMResources().const.FALSE),
+                    default = ENUMResources().const.FALSE)
