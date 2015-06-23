@@ -623,19 +623,29 @@ def class_manage_user():
                                departments=[])
 
     # all registered users
-    allUsers = (dao.query(DepartmentsDetailsOfMembers,
-                          Members).\
-                    join(Members,
-                         Members.memberId == DepartmentsDetailsOfMembers.memberId).\
-                    filter(Members.authority == SETResources().const.USER).\
-                    order_by(DepartmentsDetailsOfMembers.memberId)).\
-               all()
-
-    colleges = dao.query(Colleges).\
+    try:
+        allUsers = (dao.query(DepartmentsDetailsOfMembers,
+                              Members).\
+                        join(Members,
+                             Members.memberId == DepartmentsDetailsOfMembers.memberId).\
+                        filter(Members.authority == SETResources().const.USER).\
+                        order_by(DepartmentsDetailsOfMembers.memberId)).\
                    all()
-    departments = dao.query(Departments).\
-                      all()
-                      
+    except exc.SQLAlchemyError:
+        allUsers = []
+    
+    try:
+        colleges = dao.query(Colleges).\
+                       all()
+    except exc.SQLAlchemyError:
+        colleges = []
+    
+    try:
+        departments = dao.query(Departments).\
+                          all()
+    except exc.SQLAlchemyError:
+        departments = []
+        
     allUsersToData = []
     userIndex = 1
     loopIndex = 0
