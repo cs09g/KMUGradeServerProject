@@ -198,7 +198,7 @@ def sign_up():
 
                     if college and department:
                         if not insert_into_departmentDetailsOfMembers(memberId, college, department):
-                            error = 'Error has been occurred while adding user's department information to DB'
+                            error = 'Error has been occurred while adding user\'s department information to DB'
                             return render_template("sign_up.html",
                                                    SETResources = SETResources,
                                                    SessionResources = SessionResources,
