@@ -40,7 +40,6 @@ encoding//GradeServer/GradeServer/model/registeredTeamMembers.py=utf-8
 encoding//GradeServer/GradeServer/model/registrations.py=utf-8
 encoding//GradeServer/GradeServer/model/repliesOnBoard.py=utf-8
 encoding//GradeServer/GradeServer/model/repliesOnSubmission.py=utf-8
-encoding//GradeServer/GradeServer/model/serverLogs.py=utf-8
 encoding//GradeServer/GradeServer/model/submissions.py=utf-8
 encoding//GradeServer/GradeServer/model/submittedFiles.py=utf-8
 encoding//GradeServer/GradeServer/model/submittedRecordsOfProblems.py=utf-8
