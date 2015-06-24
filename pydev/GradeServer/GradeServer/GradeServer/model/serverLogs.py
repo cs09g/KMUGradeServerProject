@@ -11,17 +11,26 @@
 
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.mysql import VARCHAR, INTEGER, DATETIME
+from sqlalchemy.dialects.mysql import VARCHAR, INTEGER, DATETIME, TEXT
 
 from GradeServer.model import Base
 from GradeServer.model.members import Members
 
 class ServerLogs (Base) :
     
-    __tablename__ ="ServerLogs"
+    __tablename__ = "ServerLogs"
     
-    logIndex =Column (INTEGER (unsigned =True), primary_key =True, autoincrement =True)
-    loggedDate =Column (DATETIME, nullable =False)
-    serverStatus =Column (INTEGER (unsigned =True), nullaable =False)
-    memberId =Column (VARCHAR (20), ForeignKey (Members.memberId, onupdate ="CASCADE", ondelete ="CASCADE"), nullable =False)
-    
+    logIndex = Column(INTEGER(unsigned = True),
+                      primary_key = True, 
+                      autoincrement = True)
+    loggedDate = Column(DATETIME, 
+                        nullable = False)
+    serverStatus = Column(INTEGER(unsigned = True), 
+                          nullaable = False)
+    memberId = Column(VARCHAR(20),
+                      ForeignKey(Members.memberId,
+                                 onupdate = "CASCADE",
+                                 ondelete = "CASCADE"),
+                      nullable = False)
+    logContent = Column(TEXT,
+                        nullable = False)
