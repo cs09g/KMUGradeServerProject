@@ -20,5 +20,4 @@ __all__ = ['members', 'departmentsDetailsOfMembers',
            'submittedRecordsOfProblems', 'submittedFiles', 'likesOnSubmission', 
            'submissions', 'repliesOnSubmission', 'likesOnReplyOfSubmission',
            'articlesOnBoard', 'likesOnBoard', 'repliesOnBorad', 'likesOnReplyOfBoard', 
-           'serverLogs', 
            'teams', 'registeredTeamMembers', 'teamInvitations']
