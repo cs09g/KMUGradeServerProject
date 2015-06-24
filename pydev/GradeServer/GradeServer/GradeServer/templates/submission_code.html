@@ -29,11 +29,7 @@
 					<td>{% if problemSolvedMemberRecords.memberId %}{{ problemSolvedMemberRecords.memberId }}{% endif %}
 					<td>{% if problemSolvedMemberRecords.runTime %}{{ problemSolvedMemberRecords.runTime }}{% else %}0{% endif %} ms
 					<td>{% if problemSolvedMemberRecords.usedMemory %}{{ problemSolvedMemberRecords.usedMemory }}{% else %}0{% endif %} MB
-					<td>{% if problemSolvedMemberRecords.sumOfSubmittedFileSize %}{{ problemSolvedMemberRecords.sumOfSubmittedFileSize }}{% endif %} Byte
-					<td style="text-align: center">
-						<button type="button" id="code-down">
-							{{ LanguageResources.const.DownloadCode[session['language']] }}
-						</button>
+					<td colsapn="2">{% if problemSolvedMemberRecords.sumOfSubmittedFileSize %}{{ problemSolvedMemberRecords.sumOfSubmittedFileSize }}{% endif %} Byte
 				</tr>
 			</div>
 		</table>

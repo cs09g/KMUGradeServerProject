@@ -56,6 +56,7 @@ encoding//GradeServer/GradeServer/utils/checkInvalidAccess.py=utf-8
 encoding//GradeServer/GradeServer/utils/filterFindParameter.py=utf-8
 encoding//GradeServer/GradeServer/utils/loginRequired.py=utf-8
 encoding//GradeServer/GradeServer/utils/memberCourseProblemParameter.py=utf-8
+encoding//GradeServer/GradeServer/utils/overloadData.py=utf-8
 encoding//GradeServer/GradeServer/utils/replyParameter.py=utf-8
 encoding//GradeServer/GradeServer/utils/utilArticleQuery.py=utf-8
 encoding//GradeServer/GradeServer/utils/utilMessages.py=utf-8
