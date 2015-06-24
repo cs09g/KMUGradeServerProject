@@ -12,8 +12,11 @@
 
 
 import logging
+from datetime import datetime
 from logging import getLogger, handlers, Formatter
 
+from GradeServer.database import dao
+from GradeServer.model.serverLogs import ServerLogs
 
 class Log:
     __log_level_map = {
@@ -49,21 +52,34 @@ class Log:
         Log.__my_logger.addHandler(file_handler)
     
     @staticmethod
-    def debug(msg):
+    def debug(memberId, msg):
         Log.__my_logger.debug(msg)
+        Log.insert_logs(0, memberId, msg)
     
     @staticmethod
-    def info(msg):
+    def info(memberId, msg):
         Log.__my_logger.info(msg)
+        Log.insert_logs(0, memberId, msg)
     
     @staticmethod
-    def warn(msg):
+    def warn(memberId, msg):
         Log.__my_logger.warn(msg)
+        Log.insert_logs(0, memberId, msg)
     
     @staticmethod
-    def error(msg):
+    def error(memberId, msg):
         Log.__my_logger.error(msg)
+        Log.insert_logs(0, memberId, msg)
     
     @staticmethod
-    def critical(msg):
+    def critical(memberId, msg):
         Log.__my_logger.critical(msg)
+        Log.insert_logs(0, memberId, msg)
+        
+    @staticmethod
+    def insert_logs(serverStatus, memberId, logContent):
+        dao.add(ServerLogs(loggedDate = datetime.now(),
+                           serverStatus = serverStatus,
+                           memberId = memberId,
+                           logContent = logContent))
+        dao.commit()
