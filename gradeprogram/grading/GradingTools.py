@@ -67,7 +67,7 @@ class GradingTools(object):
         
     def GradeCheckerSingle(self):
         copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '.out')
-        FileTools.CopyFile(copyCommand, 'checker.out')
+        FileTools.CopyFile(copyCommand, './checker.out')
         
         call('./checker.out 1>result.txt', shell = True)
         
@@ -93,7 +93,7 @@ class GradingTools(object):
                                                 self.problemName,
                                                 '_case', i, '_output.txt')
 
-            FileTools.CopyFile(copyCommand, 'input.txt')
+            FileTools.CopyFile(copyCommand, './input.txt')
             
             call(command, shell = True)
             
@@ -121,12 +121,12 @@ class GradingTools(object):
         
         copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '.out')
         
-        FileTools.CopyFile(copyCommand, 'checker.out')
+        FileTools.CopyFile(copyCommand, './checker.out')
         
         for i in range(1, self.caseCount+1):
             copyCommand = "%s%s%s%i%s" % (self.answerPath, self.problemName,
                                           '_case', i, '_input.txt input.txt')
-            FileTools.CopyFile(copyCommand, 'input.txt')
+            FileTools.CopyFile(copyCommand, './input.txt')
             
             call(command, shell = True)
             
