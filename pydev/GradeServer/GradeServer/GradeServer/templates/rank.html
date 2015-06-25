@@ -182,7 +182,7 @@ $(function() {
 				<!-- page number section -->
 				<div class="pagination pagination-centered">
 					<ul>
-						{%- if pages['pageNum'] > pages['BLOCK'] %}
+						{%- if pages['startPage'] > 1 %}
 						<li>
 							<a href="{{ url_for ('GradeServer.rank', activeTabCourseId = activeTabCourseId, sortCondition = sortCondition, pageNum =pages['pageNum'] - 1) }}"><</a>
 						{% endif -%}

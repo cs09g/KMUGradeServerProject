@@ -88,7 +88,7 @@
 	<!-- Paging -->
 	<div class="pagination pagination-centered">
 		<ul>
-			{%- if pages['pageNum'] > pages['BLOCK'] %}
+			{%- if pages['startPage'] > 1 %}
 			<li><a href="{{ url_for ('GradeServer.problem_list', courseId=courseRecords.courseId, pageNum=pages['pageNum'] - 1) }}"><</a></li>
 			{% endif -%}
 			

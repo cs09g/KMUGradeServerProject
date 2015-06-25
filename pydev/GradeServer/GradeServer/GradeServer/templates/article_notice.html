@@ -125,7 +125,7 @@
 					<!-- Paging -->
 					<div class="pagination pagination-centered">
 						<ul>
-							{%- if pages['pageNum'] > pages['BLOCK'] %}
+							{%- if pages['startPage'] > 1 %}
 							<li>
 								<a href="{{ url_for ('GradeServer.article_notice', activeTabCourseId = activeTabCourseId, pageNum = pages['pageNum'] -1) }}">
 									<
@@ -238,7 +238,7 @@
 				<!-- Paging -->
 				<div class="pagination pagination-centered">
 					<ul>
-						{%- if pages['pageNum'] > pages['BLOCK'] %}
+						{%- if pages['startPage'] > 1 %}
 						<li>
 							<a href="{{ url_for ('GradeServer.article_notice', activeTabCourseId = activeTabCourseId, pageNum = pages['pageNum'] -1) }}">
 								<

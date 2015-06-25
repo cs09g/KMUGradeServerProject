@@ -12,11 +12,14 @@ def get_page_pointed(pageNum, count, BLOCK = OtherResources().const.BLOCK, LIST 
     #Show List
     startList = (pageNum - 1) * LIST
     endList = (pageNum * LIST) if startList + LIST < count - 1 else count
+    
     #show Page
-    block = pageNum / BLOCK if pageNum < BLOCK else pageNum - BLOCK
-    startPage = block + 1 
-    endPage = block + BLOCK 
     allPage = int(math.ceil(count / float(LIST)))
+    #block = pageNum / BLOCK if pageNum < BLOCK else pageNum - BLOCK
+    #startPage = block + 1 
+    #endPage = block + BLOCK 
+    startPage = 1 if pageNum - 3 < 1 else (allPage - BLOCK  +1 if pageNum + 3 > allPage else pageNum - 3)
+    endPage = pageNum if pageNum == allPage else (BLOCK if startPage == 1 else pageNum + 2)
     #Minimum Page
     if endPage > allPage:
         endPage = allPage
