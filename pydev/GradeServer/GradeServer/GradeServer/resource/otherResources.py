@@ -43,4 +43,3 @@ class OtherResources(object):
     const.SUBMISSION_COUNT = 'submissionCount'
     const.SOLUTION_CHECK_COUNT = 'solutionCheckCount'
     const.VIEW_COUNT = 'viewCount'
-    const.SUBMISSION_SUCCESS = 'Submission Success!'

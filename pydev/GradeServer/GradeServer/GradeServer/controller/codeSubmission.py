@@ -14,7 +14,7 @@ from GradeServer.GradeServer_logger import Log
 from GradeServer.GradeServer_blueprint import GradeServer
 from GradeServer.utils.loginRequired import login_required
 from GradeServer.GradeServer_config import GradeServerConfig
-from GradeServer.utils.utilCodeSubmissionQuery import get_member_name, get_course_name, get_submission_info, \
+from GradeServer.utils.utilCodeSubmissionQuery import get_member_name, get_course_name, get_problem_name, get_submission_info, \
                                                       insert_submitted_files, get_used_language_index, insert_to_submissions, \
                                                       get_problem_info, get_used_language_version, delete_submitted_files_data
 from GradeServer.utils.utilMessages import unknown_error, get_message
@@ -41,16 +41,6 @@ def make_path(PATH, memberId, courseId, problemId, problemName):
 def make_problem_full_name(problemId, problemName):
     return '%s_%s' %(problemId, problemName)
 
-def get_case_count(problemCasesPath, isAllInputCaseInOneFile):
-    caseCount = len(glob.glob(os.path.join(problemCasesPath, '*.*')))/2
-    
-    if caseCount > 1:
-        if isAllInputCaseInOneFile == ENUMResources.const.FALSE:
-            caseCount -= 1
-        else:
-            caseCount = 1
-    return caseCount
-
 def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
     fileIndex = 1
     sumOfSubmittedFileSize = 0
@@ -65,6 +55,7 @@ def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
         fileIndex += 1
         sumOfSubmittedFileSize += fileSize
     
+    
     return sumOfSubmittedFileSize
         
 def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmittedFileSize, problemName, filePath, tempPath):
@@ -74,7 +65,6 @@ def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmitt
     insert_to_submissions(courseId, memberId, problemId, submissionCount, solutionCheckCount, viewCount, usedLanguageIndex, sumOfSubmittedFileSize)
     problemPath, limitedTime, limitedMemory, solutionCheckType, isAllInputCaseInOneFile, numberOfTestCase, problemCasesPath = get_problem_info(problemId, problemName)
     problemFullName = make_problem_full_name(problemId, problemName)
-            
     Grade.delay(str(filePath),
                 str(problemPath),
                 str(memberId),
@@ -88,10 +78,10 @@ def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmitt
                 str(courseId),
                 submissionCount,
                 str(problemFullName))
-
+    
     dao.commit()
     
-    flash(OtherResources.const.SUBMISSION_SUCCESS)
+    flash(LanguageResources.const.SubmissionSuccess[session['language']])
     os.system("rm -rf %s" % filePath)
     os.rename(tempPath, filePath)
     
@@ -139,11 +129,12 @@ def submit_error(tempPath, courseId, pageNum, error, browserName = None, browser
     flash(get_message(error))
     return page_move(courseId, pageNum, browserName, browserVersion)
 
-@GradeServer.route('/problem_<courseId>_<problemId>_<problemName>_<pageNum>_<browserName>_<browserVersion>', methods = ['POST'])
+@GradeServer.route('/problem_<courseId>_<problemId>_<pageNum>_<browserName>_<browserVersion>', methods = ['POST'])
 @check_invalid_access
 @login_required
-def to_process_uploaded_files(courseId, problemId, problemName, pageNum, browserName, browserVersion):
+def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browserVersion):
     memberId = session[SessionResources.const.MEMBER_ID]
+    problemName = get_problem_name(problemId)
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)
@@ -155,15 +146,17 @@ def to_process_uploaded_files(courseId, problemId, problemName, pageNum, browser
         submit_error(tempPath, courseId, pageNum, 'fileError', browserName, browserVersion)
     except Exception as e:
         dao.rollback()
+        print e
         submit_error(tempPath, courseId, pageNum, 'dbError', browserName, browserVersion)
         
     time.sleep(0.4)
     return page_move(courseId, pageNum, browserName, browserVersion)
-@GradeServer.route('/problem_<courseId>_page<pageNum>_<problemId>_<problemName>', methods = ['POST'])
+@GradeServer.route('/problem_<courseId>_page<pageNum>_<problemId>', methods = ['POST'])
 @check_invalid_access
 @login_required
-def to_process_written_code(courseId, pageNum, problemId, problemName):
+def to_process_written_code(courseId, pageNum, problemId):
     memberId = session[SessionResources.const.MEMBER_ID]
+    problemName = get_problem_name(problemId)
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)

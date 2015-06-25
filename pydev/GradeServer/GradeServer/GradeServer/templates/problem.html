@@ -106,12 +106,12 @@
 						<div>
 							{%- if languageInfoRecord.languageName == "C++" %}
 							<form class="dropzone"  id="my-dropzoneCpp" method="post"
-								    action="/problem_{{ courseId }}_{{ problemId }}_{{ problemName }}_{{ pageNum }}_{{ browserName }}_{{ browserVersion }}"
+								    action="/problem_{{ courseId }}_{{ problemId }}_{{ pageNum }}_{{ browserName }}_{{ browserVersion }}"
 								    enctype="multipart/form-data">
 							{%- else %}
 							<form class="dropzone" id="my-dropzone{{ languageInfoRecord.languageName }}"
 								    method="post" 
-								    action="/problem_{{ courseId }}_{{ problemId }}_{{ problemName }}_{{ pageNum }}_{{ browserName }}_{{ browserVersion }}"
+								    action="/problem_{{ courseId }}_{{ problemId }}_{{ pageNum }}_{{ browserName }}_{{ browserVersion }}"
 								    enctype="multipart/form-data">
 							{% endif -%}
 								<textarea name="usedLanguageName" style="display:none;">{{ languageInfoRecord.languageName }}</textarea>
@@ -147,7 +147,7 @@
 		</div>
 		<div class="tab-pane" id="write">
 			<div>
-				<form action="/problem_{{courseId}}_page{{ pageNum }}_{{ problemId }}_{{ problemName }}"
+				<form action="/problem_{{courseId}}_page{{ pageNum }}_{{ problemId }}"
 					    method="post" enctype="multipart/form-data">				
 					<div style="margin-bottom:10px">
 						{{ LanguageResources.const.Language[session['language']] }}
