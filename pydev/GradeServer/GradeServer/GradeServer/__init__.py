@@ -23,6 +23,9 @@ def create_app(config_filepath ="resource/config.cfg"):
     from GradeServer.GradeServer_config import GradeServerConfig
     app.config.from_object(GradeServerConfig)
     app.config.from_pyfile(config_filepath, silent=True)
+    # Log
+    from GradeServer.GradeServer_logger import Log
+    Log.init()
     
     # SessionInterface 설정.
     from GradeServer.cache_session import RedisCacheSessionInterface
