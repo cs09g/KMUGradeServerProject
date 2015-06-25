@@ -181,7 +181,7 @@ $.getScript('../../static/bootstrap/js/Chart.js',function(){
 			<!-- page number section -->
 			<div class="pagination pagination-centered">
 				<ul>
-					{%- if pages['pageNum'] > pages['BLOCK'] %}
+					{%- if pages['startPage'] > 1 %}
 					<li><a href="{{ url_for ('GradeServer.submission_record', memberId = memberId, sortCondition = sortCondition, pageNum = pages['pageNum'] - 1) }}"><</a></li>
 					{% endif -%} 
 					
