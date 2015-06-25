@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import string
 from FileTools import FileTools
 from subprocess import call
@@ -66,7 +67,7 @@ class GradingTools(object):
         
     def GradeCheckerSingle(self):
         copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '.out')
-        FileTools.CopyFile(copyCommand,'checker.out')
+        FileTools.CopyFile(copyCommand, 'checker.out')
         
         call('./checker.out 1>result.txt', shell = True)
         

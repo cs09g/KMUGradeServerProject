@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import glob
 import string
 import ptrace
 import resource
-from shutil import copyfile
 from FileTools import FileTools
 from GradingCommand import GradingCommand
 from gradingResource.enumResources import ENUMResources
@@ -25,14 +25,9 @@ class ExecutionTools(object):
         
     def Execution(self):
         # copy input data
-        try:
-            if self.caseCount > 0:
-                copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '_cases_total_inputs.txt')
-                copyfile(copyCommand, 'input.txt')
-        except Exception as e:
-            print e
-            print ENUMResources.const.SERVER_ERROR, 0, 0, 0
-            sys.exit()
+        if self.caseCount > 0:
+            copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '_cases_total_inputs.txt')
+            FileTools.CopyFile(copyCommand, 'input.txt')
         
         # make execution command
         runCommandList = GradingCommand.MakeExecuteCommand(self.usingLang, self.runFileName, self.version)
