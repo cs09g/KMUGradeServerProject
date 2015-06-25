@@ -88,15 +88,18 @@ def board(activeTabCourseId, pageNum):
                 # 과목 게시글
         try:
             if request.method == 'POST':
+                Log.info(session[SessionResources().const.MEMBER_ID] + ' try keyword find in Board')
                 try:
                     for form in request.form:
                         # FilterCondition
                         if 'keyWord' != form:
                             filterCondition = form
                             keyWord = request.form['keyWord']
-                except Exception:
+                except Exception as e:
                     filterCondition = None
                     keyWord = None
+                    
+                    Log.info(session[SessionResources().const.MEMBER_ID] + e)
             else:
                 filterCondition = None
                 keyWord = None
