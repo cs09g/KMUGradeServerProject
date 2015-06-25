@@ -21,15 +21,13 @@
 							{{ LanguageResources.const.Memory[session['language']] }}
 						<td>
 							{{ LanguageResources.const.FileSize[session['language']] }}
-						<td>
-							&nbsp;
 					</tr>
 				</thead>
 				<tr>
 					<td>{% if problemSolvedMemberRecords.memberId %}{{ problemSolvedMemberRecords.memberId }}{% endif %}
 					<td>{% if problemSolvedMemberRecords.runTime %}{{ problemSolvedMemberRecords.runTime }}{% else %}0{% endif %} ms
 					<td>{% if problemSolvedMemberRecords.usedMemory %}{{ problemSolvedMemberRecords.usedMemory }}{% else %}0{% endif %} MB
-					<td colsapn="2">{% if problemSolvedMemberRecords.sumOfSubmittedFileSize %}{{ problemSolvedMemberRecords.sumOfSubmittedFileSize }}{% endif %} Byte
+					<td>{% if problemSolvedMemberRecords.sumOfSubmittedFileSize %}{{ problemSolvedMemberRecords.sumOfSubmittedFileSize }}{% endif %} Byte
 				</tr>
 			</div>
 		</table>
