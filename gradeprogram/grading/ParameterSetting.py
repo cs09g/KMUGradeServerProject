@@ -18,12 +18,12 @@ class ParameterSetting(object):
         self.version = args[9]
         self.problemName = args[10]
         
-        self.answerPath = "%s/%s_%s/" % (self.problemPath,
-                                         self.problemName,
-                                         self.gradeMethod,)
+        self.answerPath = "%s%s%s%s%s%s" % (self.problemPath, '/',
+                                            self.problemName, '_',
+                                            self.gradeMethod, '/')
         
         # make execution file name
-        self.filePath = "%s/" % (self.filePath)
+        self.filePath = "%s%s" % (self.filePath, '/')
         self.runFileName = self.MakeRunFileName()
         
         os.chdir(self.saveDirectoryName)

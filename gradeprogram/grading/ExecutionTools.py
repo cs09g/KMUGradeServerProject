@@ -27,7 +27,7 @@ class ExecutionTools(object):
         # copy input data
         if self.caseCount > 0:
             copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '_cases_total_inputs.txt')
-            FileTools.CopyFile(copyCommand, 'input.txt')
+            FileTools.CopyFile(copyCommand, './input.txt')
         
         # make execution command
         runCommandList = GradingCommand.MakeExecuteCommand(self.usingLang, self.runFileName, self.version)
