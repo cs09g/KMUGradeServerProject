@@ -49,6 +49,16 @@ def get_member_name(memberId):
     except Exception as e:
         return unknown_error(get_message('dbError'))
 
+def get_problem_name(problemId):
+    try:
+        problemName = dao.query(Problems.problemName).\
+                          filter(Problems.problemId == problemId).\
+                          first().\
+                          problemName
+        return problemName
+    except:
+        return unknown_error(get_message('dbError'))
+    
 def get_submission_info(memberId, courseId, problemId):
     try:
         submissionInfo = dao.query(func.max(Submissions.submissionCount).\
