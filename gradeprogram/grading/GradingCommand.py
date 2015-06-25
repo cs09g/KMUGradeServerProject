@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gradingResource.listResources import ListResources
 
 class GradingCommand(object):
