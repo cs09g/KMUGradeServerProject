@@ -31,7 +31,8 @@ class GradingCommand(object):
                 append('/usr/local/bin/python3')
                 append(runFileName + '.py')
                 
-        elif usingLang == ListResources.const.Lang_C or usingLang == ListResources.const.Lang_CPP:
+        elif usingLang == ListResources.const.Lang_C or\
+             usingLang == ListResources.const.Lang_CPP:
             append('./main')
             append('./main')
             
@@ -51,7 +52,8 @@ class GradingCommand(object):
             elif version == ListResources.const.PYTHON_VERSION_THREE:
                 return "%s%s%s" % ('python3 ', runFileName, '.py 1>output.txt 2>core.1')
         
-        elif usingLang == ListResources.const.Lang_C or usingLang == ListResources.const.Lang_CPP:
+        elif usingLang == ListResources.const.Lang_C or\
+             usingLang == ListResources.const.Lang_CPP:
             return './main 1>output.txt'
         
         elif usingLang == ListResources.const.Lang_JAVA:
