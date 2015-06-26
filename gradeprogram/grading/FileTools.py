@@ -11,7 +11,9 @@ class FileTools(object):
         try:
             readFile = open(fileName, 'r')
         except Exception as e:
+            logging.debug(e)
             logging.info('file error : ' + fileName + ' read error')
+            
             print ENUMResources.const.SERVER_ERROR, 0, 0, 0
             sys.exit()
         
@@ -25,7 +27,9 @@ class FileTools(object):
         try:
             readFile = open(fileName, 'r') # answer output open
         except Exception as e:
+            logging.debug(e)
             logging.info('file error : ' + fileName + ' read error')
+            
             print ENUMResources.const.SERVER_ERROR, 0, 0, 0
             sys.exit()
         
@@ -45,6 +49,8 @@ class FileTools(object):
             
             copyfile(oldName, newName)
         except Exception as e:
+            logging.debug(e)
             logging.info('file error : ' + oldName + ' copy error')
+            
             print ENUMResources.const.SERVER_ERROR, 0, 0, 0
             sys.exit()

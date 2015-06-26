@@ -34,7 +34,8 @@ class GradingTools(object):
         
     def GradeSolutionSingle(self):
         # user output file each line compare with answer file each line.
-        answerOpenCommand = "%s%s%s" % (self.answerPath, self.problemName, '_cases_total_outputs.txt')
+        answerOpenCommand = "%s%s%s" % (self.answerPath, self.problemName,
+                                        '_cases_total_outputs.txt')
         
         stdLines = FileTools.ReadFileLines('output.txt')
         answerLines = FileTools.ReadFileLines(answerOpenCommand)
@@ -67,7 +68,7 @@ class GradingTools(object):
         
     def GradeCheckerSingle(self):
         copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '.out')
-        FileTools.CopyFile(copyCommand, './checker.out')
+        FileTools.CopyFile(copyCommand, 'checker.out')
         
         call('./checker.out 1>result.txt', shell = True)
         
@@ -93,7 +94,7 @@ class GradingTools(object):
                                                 self.problemName,
                                                 '_case', i, '_output.txt')
 
-            FileTools.CopyFile(copyCommand, './input.txt')
+            FileTools.CopyFile(copyCommand, 'input.txt')
             
             call(command, shell = True)
             
@@ -109,7 +110,8 @@ class GradingTools(object):
         
         else:
             self.MakeCaseList(_list)
-            return ENUMResources.const.WRONG_ANSWER, int( ((self.caseCount - count) * 100) / self.caseCount )
+            return ENUMResources.const.WRONG_ANSWER,\
+                   int( ((self.caseCount - count) * 100) / self.caseCount )
         
     def GradeCheckerMulti(self):
         count = 0
@@ -121,12 +123,12 @@ class GradingTools(object):
         
         copyCommand = "%s%s%s" % (self.answerPath, self.problemName, '.out')
         
-        FileTools.CopyFile(copyCommand, './checker.out')
+        FileTools.CopyFile(copyCommand, 'checker.out')
         
         for i in range(1, self.caseCount+1):
             copyCommand = "%s%s%s%i%s" % (self.answerPath, self.problemName,
                                           '_case', i, '_input.txt input.txt')
-            FileTools.CopyFile(copyCommand, './input.txt')
+            FileTools.CopyFile(copyCommand, 'input.txt')
             
             call(command, shell = True)
             
@@ -141,7 +143,8 @@ class GradingTools(object):
         
         else:
             self.MakeCaseList(_list)
-            return ENUMResources.const.WRONG_ANSWER, int( ((self.caseCount - count) * 100) / self.caseCount )
+            return ENUMResources.const.WRONG_ANSWER,\
+                   int( ((self.caseCount - count) * 100) / self.caseCount )
         
     def MakeCaseList(self, _list):
         wf = open('caselist.txt', 'w')

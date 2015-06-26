@@ -31,20 +31,20 @@ class ParameterSetting(object):
         logging.debug(self.saveDirectoryName + ' parameter setting')
         
     def MakeRunFileName(self):
-        if self.usingLang == ListResources.const.Lang_C or self.usingLang == ListResources.const.Lang_CPP:
+        if self.usingLang == ListResources.const.Lang_C or\
+           self.usingLang == ListResources.const.Lang_CPP:
             return 'main'
         
-        if self.usingLang == ListResources.const.Lang_JAVA:
-            fileExtention = '*.java'
+        fileExtention = ''
+        if self.usingLang == ListResources.const.Lang_PYTHON:
+            fileExtention = '.py'
             
-        else:
-            fileExtention = '*.py'
             
         fileList = glob.glob(self.filePath + fileExtention)
         
         if len(fileList) > 1:
-            return 'main'
+            return 'main' + fileExtention
         
         split = string.split
         name = split(fileList[0], '/')
-        return split(name[-1], '.')[0]
+        return split(name[-1], '.')[0] + fileExtention
