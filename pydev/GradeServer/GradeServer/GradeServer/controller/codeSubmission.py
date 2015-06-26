@@ -135,6 +135,8 @@ def submit_error(tempPath, courseId, pageNum, error, browserName = None, browser
 def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browserVersion):
     memberId = session[SessionResources.const.MEMBER_ID]
     problemName = get_problem_name(problemId)
+    problemName = problemName.replace(' ', '')
+    print problemName
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)
@@ -157,6 +159,7 @@ def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browser
 def to_process_written_code(courseId, pageNum, problemId):
     memberId = session[SessionResources.const.MEMBER_ID]
     problemName = get_problem_name(problemId)
+    problemName = problemName.replace(' ', '')
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)
