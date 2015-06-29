@@ -40,7 +40,7 @@ class ParameterSetting(object):
             fileExtention = '.py'
             
             
-        fileList = glob.glob(self.filePath + fileExtention)
+        fileList = glob.glob(self.filePath + '*' +  fileExtention)
         
         if len(fileList) > 1:
             return 'main' + fileExtention
