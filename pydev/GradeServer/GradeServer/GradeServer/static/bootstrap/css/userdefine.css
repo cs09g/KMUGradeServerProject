@@ -278,6 +278,23 @@ thead{
 	background-color: #FFFFA2;
 }
 
+
+.solved {
+	background-color: #D9EDF7 ;
+}
+.never_submitted {
+	background-color: #FAF8F0 ;
+}
+.judging {
+	background-color: #FFFF8F ;
+}
+.server_error {
+	background-color: #EFEFEF ;
+}
+.etc_error {
+	background-color: #FFB0B0 ;
+}
+
 .navbar{
 	font-weight: bold;
 	font-size: 18px;

@@ -8,18 +8,7 @@
 {%- block body %}
 <div class="container">
 	<h2>{{ courseRecords.courseId }} {{ courseRecords.courseName }}</h2>
-	<div style="text-align:center">
-		<div class="visible-phone" style="margin-bottom:10px">
-			<style>
-			.alert{
-				padding: 5px;
-			}
-			</style>
-			<span class="alert alert-info">Solved</span>
-			<span class="alert alert-error">Wrong</span>
-			<span class="alert">NeverSubmitted & Error</span>
-		</div>
-	</div>
+
 	<table class="problem_list table table-bordered">
 		<thead>
 			<tr>
@@ -39,9 +28,11 @@
 			</tr>
 		<tbody>
 			{% for problemListRecord in problemListRecords %}
-			<tr class='alert{%- if problemListRecord.status == "SOLVED" %} alert-info
-						      {% elif problemListRecord.status == "WRONG_ANSWER" %} alert-error
-						      {%- else %}
+			<tr class='alert {%- if problemListRecord.status == "SOLVED" %} solved
+						      {% elif problemListRecord.status == None %} never_submitted
+						      {% elif problemListRecord.status == "SERVER_ERROR" %} server_error
+				      		{% elif problemListRecord.status == "JUDGING" %} judging
+				      		{% else %} etc_error
 						      {% endif -%}'>
 				<td class="hidden-phone">
 					{{ (pages['count'] - loop.index0) - (pages['pageNum'] - 1) * pages['LIST'] }}
