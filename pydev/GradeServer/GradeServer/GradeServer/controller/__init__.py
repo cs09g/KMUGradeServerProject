@@ -9,4 +9,4 @@
     :@author: algolab
 """
 
-__all__ = ["board", "classMaster", "codeSubmission", "login", "problem", "rank", "serverMaster", "team", "user", "signUp"]
+__all__ = ["board", "classMaster", "codeSubmission", 'download', "login", "problem", "rank", "serverMaster", "team", "user", "signUp"]

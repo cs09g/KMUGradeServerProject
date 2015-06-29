@@ -15,7 +15,7 @@ bug reporting
 if path is a/b/c/d, it can't recognize any .css and .js file.
 (a/b/c is okay)
 """
-from flask import request, redirect, session, url_for, render_template, flash, make_response
+from flask import request, redirect, session, url_for, render_template, flash
 from datetime import datetime
 
 from GradeServer.database import dao

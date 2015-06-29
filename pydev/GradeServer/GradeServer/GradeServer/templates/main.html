@@ -86,8 +86,8 @@ So If you use 'LanguageResources' in this page without session checking, it will
 									{%- for course in session[SessionResources.const.OWN_PAST_COURSES] %}
 									<li>
 										<a class="pastClasses main-checker"
-											href="{{ url_for('GradeServer.problem_list', courseId=course.courseId, pageNum=1) }}">
-											{{ course.courseId }} {{ course.courseName }}
+											href="{{ url_for('GradeServer.download_file', courseId=course.courseId, courseName = course.courseName) }}">
+											{{ course.courseId }} {{ course.courseName }} Download
 										</a>
 									</li>
 									{% endfor -%}
