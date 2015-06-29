@@ -30,7 +30,8 @@ def select_last_submissions(memberCourseProblemParameter = MemberCourseProblemPa
                          Submissions.problemId,
                          Submissions.codeSubmissionDate,
                          func.max(Submissions.submissionCount).label(OtherResources().const.SUBMISSION_COUNT),
-                         func.max(Submissions.solutionCheckCount).label(OtherResources().const.SOLUTION_CHECK_COUNT)).\
+                         func.max(Submissions.solutionCheckCount).label(OtherResources().const.SOLUTION_CHECK_COUNT),
+                         func.max(Submissions.viewCount).label(OtherResources().const.VIEW_COUNT)).\
                    group_by(Submissions.memberId,
                             Submissions.problemId,
                             Submissions.courseId)
@@ -40,7 +41,8 @@ def select_last_submissions(memberCourseProblemParameter = MemberCourseProblemPa
                          Submissions.problemId,
                          Submissions.codeSubmissionDate,
                          func.max(Submissions.submissionCount).label(OtherResources().const.SUBMISSION_COUNT),
-                         func.max(Submissions.solutionCheckCount).label(OtherResources().const.SOLUTION_CHECK_COUNT)).\
+                         func.max(Submissions.solutionCheckCount).label(OtherResources().const.SOLUTION_CHECK_COUNT),
+                         func.max(Submissions.viewCount).label(OtherResources().const.VIEW_COUNT)).\
                    filter((Submissions.courseId == memberCourseProblemParameter.courseId if memberCourseProblemParameter.courseId
                           else Submissions.courseId != None),
                           (Submissions.problemId == memberCourseProblemParameter.problemId if memberCourseProblemParameter.problemId

@@ -8,6 +8,12 @@ from GradeServer.model.submissions import Submissions
 from GradeServer.model.languages import Languages
 from GradeServer.model.languagesOfCourses import LanguagesOfCourses
 from GradeServer.model.registeredProblems import RegisteredProblems
+
+from GradeServer.utils.memberCourseProblemParameter import MemberCourseProblemParameter
+from GradeServer.utils.utilSubmissionQuery import select_last_submissions
+from GradeServer.utils.utilProblemQuery import select_problem_informations
+from GradeServer.utils.utilQuery import select_match_member
+        
 from GradeServer.utils.utilMessages import unknown_error, get_message
 from GradeServer.resource.enumResources import ENUMResources
 from GradeServer.resource.sessionResources import SessionResources
@@ -41,36 +47,29 @@ def get_course_name(courseId):
 
 def get_member_name(memberId):
     try:
-        memberName = dao.query(Members.memberName).\
-                         filter(Members.memberId == memberId).\
-                         first().\
-                         memberName
+        memberName = select_match_member(MemberCourseProblemParameter(memberId = memberId)).first().\
+                                                                                            memberName
         return memberName
     except Exception as e:
         return unknown_error(get_message('dbError'))
 
 def get_problem_name(problemId):
     try:
-        problemName = dao.query(Problems.problemName).\
-                          filter(Problems.problemId == problemId).\
-                          first().\
-                          problemName
+        problemName = select_problem_informations(MemberCourseProblemParameter(memberId = None,
+                                                                               courseId = None,
+                                                                               problemId = problemId)).first().\
+                                                                                                       problemName
+                                                                                                      
         return problemName
     except:
         return unknown_error(get_message('dbError'))
     
 def get_submission_info(memberId, courseId, problemId):
     try:
-        submissionInfo = dao.query(func.max(Submissions.submissionCount).\
-                                    label(OtherResources.const.SUBMISSION_COUNT),
-                                    func.max(Submissions.solutionCheckCount).\
-                                    label(OtherResources.const.SOLUTION_CHECK_COUNT),
-                                    func.max(Submissions.viewCount).\
-                                    label(OtherResources.const.VIEW_COUNT)).\
-                              filter(Submissions.memberId == memberId,
-                                     Submissions.courseId == courseId,
-                                     Submissions.problemId == problemId).\
-                              first()
+        submissionInfo = select_last_submissions(MemberCourseProblemParameter(memberId = memberId, 
+                                                                              courseId = courseId, 
+                                                                              problemId = problemId)).first()
+        
         submissionCount = submissionInfo.submissionCount + 1
         solutionCheckCount = submissionInfo.solutionCheckCount
         viewCount = submissionInfo.viewCount
@@ -108,7 +107,8 @@ def get_problem_info(problemId, problemName):
                                                                                                                           Problems.solutionCheckType,
                                                                                                                           RegisteredProblems.isAllInputCaseInOneFile,
                                                                                                                           RegisteredProblems.numberOfTestCase).\
-                                                                                                                    join(RegisteredProblems, Problems.problemId == RegisteredProblems.problemId).\
+                                                                                                                    join(RegisteredProblems,
+                                                                                                                         Problems.problemId == RegisteredProblems.problemId).\
                                                                                                                     filter(Problems.problemId == problemId).\
                                                                                                                     first()
         problemCasesPath = '%s/%s_%s_%s' %(problemPath, problemId, problemName, solutionCheckType)
