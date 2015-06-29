@@ -14,8 +14,7 @@ class DBUpdate(object):
     def UpdateResutl(self, messageParaList):
         try:
             if len(messageParaList) != 4:
-                self.UpdateServerError()
-                return
+                return False
                 
             else:
                 result = messageParaList[0]
@@ -39,15 +38,15 @@ class DBUpdate(object):
                     self.UpdateTable_SubmittedRecordsOfProblems_CompileError()
                     
                 else:
-                    self.UpdateServerError()
-                    return
+                    return False
                 
                 self.UpdateTableSubmissions(result, score, runTime, usingMem)
                 
                 db_session.commit()
+                return True
         except Exception as e:
             db_session.rollback()
-            self.UpdateServerError()
+            return False
             
     
     def UpdateTableSubmissions(self, result, score, runTime, usingMem):
@@ -115,13 +114,14 @@ class DBUpdate(object):
         except Exception as e:
             raise e
    
-    def UpdateServerError(self):
+    @staticmethod
+    def UpdateServerError(stdNum, problemNum, courseNum, submitCount):
         try :
             db_session.query(Submissions).\
-                filter_by(memberId = self.stdNum,
-                          problemId = self.problemNum,
-                          courseId = self.courseNum,
-                          submissionCount = self.submitCount).\
+                filter_by(memberId = stdNum,
+                          problemId = problemNum,
+                          courseId = courseNum,
+                          submissionCount = submitCount).\
                 update(dict(status = 8,
                             score = 0,
                             runTime = 0,

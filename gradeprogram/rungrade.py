@@ -11,7 +11,7 @@ if __name__ == '__main__':
     # save system args for list
     args = sys.argv
     
-    if len(args) != 11:
+    if len(args) is not 11:
         print ENUMResources.const.SERVER_ERROR, 0, 0, 0
         sys.exit()
     

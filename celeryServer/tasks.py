@@ -15,7 +15,7 @@ def Grade(filePath, problemPath, stdNum, problemNum, gradeMethod, caseCount,
           limitTime, limitMemory, usingLang, version, courseNum, submitCount, problemName):
     worker_num = current_process().index % MAX_CONTAINER_COUNT + 1
     
-    saveDirectoryName = "%s%s%s%i" % (stdNum, problemNum, courseNum, submitCount)
+    saveDirectoryName = "%s|%s|%s|%i" % (stdNum, problemNum, courseNum, submitCount)
     sharingDirName = "%s%i/%s" % (ROOT_CONTAINER_DIRECTORY, worker_num,
                             saveDirectoryName)
     argsList = "%s %s %s %s %i %i %i %s %s %s" % (filePath, problemPath,
@@ -23,31 +23,36 @@ def Grade(filePath, problemPath, stdNum, problemNum, gradeMethod, caseCount,
                                                   caseCount, limitTime,
                                                   limitMemory, usingLang,
                                                   version, problemName)
-    containerCommand = "%s%i%s" % ('sudo docker exec grade_container', worker_num,
-                                   ' python /gradeprogram/rungrade.py ')
+    containerCommand = "%s%i %s" % ('sudo docker exec grade_container', worker_num,
+                                   'python /gradeprogram/rungrade.py ')
 
     
     os.system('sudo mkdir ' + sharingDirName)
     print 'program start'
+    
     message = Popen(containerCommand + argsList, shell=True, stdout=PIPE)
     
-    while message.poll() == None:
-        time.sleep(0.01)
+    for i in xrange(limitTime*100):
+        if message.poll() == None: 
+            time.sleep(0.01)
+        else:
+            messageLines = message.stdout.readlines()
+            UpdateResult(messageLines[-1], stdNum, problemNum, courseNum, submitCount)
+            break
+    else:
+        UpdateResult('SERVER_ERROR', stdNum, problemNum, courseNum, submitCount)
     
-    messageLines = message.stdout.readlines()
     os.system('sudo rm -rf ' + sharingDirName)
-    
-    UpdateResult(messageLines[-1], stdNum, problemNum, courseNum, submitCount)
     
 @app.task(name = 'task.ServerOn')
 def OnServer():
     for i in range(MAX_CONTAINER_COUNT):
         containerNum = i + 1
-        containerCreadeCommand = "%s%i%s%i%s" %('sudo docker create --privileged -i -t --name --cpuset="',
+        containerCreadeCommand = "%s%i%s%i %s" %('sudo docker create --privileged -i -t --name --cpuset="',
                                                 i, '" grade_container', containerNum,
-                                                ' gradeserver:1.0 /bin/bash')
+                                                'gradeserver:1.0 /bin/bash')
         
-        runProgramInContainer = '%s%i%s' % ('sudo docker exec grade_container',
+        runProgramInContainer = '%s%i %s' % ('sudo docker exec grade_container',
                                             containerNum, 'python -B /gradeprogram/*')
         os.system(containerCreadeCommand)
         os.system('sudo docker start grade_container' + containerNum)
@@ -64,6 +69,9 @@ def OffServer():
         
 def UpdateResult(messageLine, stdNum, problemNum, courseNum, submitCount):        
     dataUpdate = DBUpdate.DBUpdate(stdNum, problemNum, courseNum, submitCount)
-    messageParaList = messageLine.split() 
+    messageParaList = messageLine.split()
     
-    dataUpdate.UpdateResutl(messageParaList)
+    result = dataUpdate.UpdateResutl(messageParaList)
+    
+    if not result:
+        dataUpdate.UpdateServerError(stdNum, problemNum, courseNum, submitCount)
