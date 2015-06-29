@@ -145,11 +145,13 @@ def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browser
         usedLanguageName = request.form[OtherResources.const.USED_LANGUAGE_NAME]
         sumOfSubmittedFileSize = file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath)
         send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmittedFileSize, problemName, filePath, tempPath)
+        Log.info("file submitted")
     except OSError as e:
+        Log.error(str(e))
         submit_error(tempPath, courseId, pageNum, 'fileError', browserName, browserVersion)
     except Exception as e:
         dao.rollback()
-        print e
+        Log.error(str(e))
         submit_error(tempPath, courseId, pageNum, 'dbError', browserName, browserVersion)
         
     time.sleep(0.4)
@@ -169,10 +171,13 @@ def to_process_written_code(courseId, pageNum, problemId):
         delete_submitted_files_data(memberId, problemId, courseId)
         insert_submitted_files(memberId, courseId, problemId, fileIndex, fileName, filePath, fileSize)
         send_to_celery(memberId, courseId, problemId, usedLanguageName, fileSize, problemName, filePath, tempPath)
+        Log.info("writed code is submitted")
     except OSError as e:
+        Log.error(str(e))
         submit_error(tempPath, courseId, pageNum, 'fileError')
     except Exception as e:
         dao.rollback()
+        Log.error(str(e))
         submit_error(tempPath, courseId, pageNum, 'dbError')
         
     time.sleep(0.4)
