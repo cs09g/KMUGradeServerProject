@@ -39,34 +39,17 @@ $.getScript('../../static/bootstrap/js/Chart.js',function(){
 </script>
 
 <div class="container">
-	<div style="text-align:center">
-		<h3>
-			{%- if memberId %}
-				{{ memberId }}
-			{% endif -%}
-				's {{ LanguageResources.const.Submission[session['language']] }} {{ LanguageResources.const.History[session['language']] }}
-		</h3>
-		<div class="visible-phone visible-tablet" style="margin-bottom:10px">
-			<style>
-			.alert{
-				padding: 5px;
-			}
-			</style>
-			<span class="alert alert-info">Solved</span>
-			<span class="alert alert-error">Wrong</span>
-			<span class="alert">NeverSubmitted & Error</span>
-		</div>
-	</div>
 	<div class="row-fluid" style="padding-top:20px">
-		<div class="span4">
+		<div class="span2">
 			<!-- Chart -->
 			<div class="row-fluid" style="text-align:center">
 				<div class="spanX">
 					<canvas id="submitChart" width="180px"></canvas>
 				</div>
+				
 				<div class="spanY">
 					<style> h4{ padding-bottom: 5px; } </style>
-					<h4>
+					<h5>
 						<table style="width:100%">
 						<!--  chartSubmissionRecords is Value, chartSubmissionDescriptions is Description -->
 						{%- for i in range (0, chartSubmissionDescriptions|length) %}
@@ -76,21 +59,21 @@ $.getScript('../../static/bootstrap/js/Chart.js',function(){
 						</tr>
 						{% endfor -%}
 						</table>
-					</h4>
+					</h5>
 				</div>
 			</div>
 		</div>
 		<!-- end Chart -->
 		<!--  startList -->
-		<div class="span8" style="text-align:center">
+		<div class="span10" style="text-align:center">
 			<table class="problem_list table table-bordered">
 				<thead>
 					<tr>
-						<td>
+						<td class = "span3">
 							{{ LanguageResources.const.Problems[session['language']] }}
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-phone hidden-tablet" style = "width: 140px">
 							{{ LanguageResources.const.Status[session['language']] }}
-						<td>
+						<td style = "width: 50px">
 							{{ LanguageResources.const.Score[session['language']] }}
 						<td class="hidden-phone">
 							<span class="hidden-tablet hidden-phone">
@@ -119,10 +102,12 @@ $.getScript('../../static/bootstrap/js/Chart.js',function(){
 					</tr>
 				<tbody>
 					{%- for submissionRecord in submissionRecords %}
-					<tr class='alert{%- if submissionRecord.status == "SOLVED" %} alert-info
-								      {% elif submissionRecord.status == "WRONG_ANSWER" %} alert-error
-								      {%- else %}
-								      {% endif -%}'>
+					<tr class='alert {%- if submissionRecord.status == "SOLVED" %} solved
+						      {% elif submissionRecord.status == None %} never_submitted
+						      {% elif submissionRecord.status == "SERVER_ERROR" %} server_error
+				      		{% elif submissionRecord.status == "JUDGING" %} judging
+				      		{% else %} etc_error
+						      {% endif -%}'>
 						<td>
 							{%- if submissionRecord.problemName %}
 							{{ submissionRecord.problemName }}

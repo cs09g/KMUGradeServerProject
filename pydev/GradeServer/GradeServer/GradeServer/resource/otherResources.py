@@ -10,7 +10,7 @@ class OtherResources(object):
     # Integer
     const.NOTICE_LIST = 5
     const.BLOCK = 11
-    const.LIST = 15
+    const.LIST = 20
 
     const.ACCEPT = 'accept'
     const.REJECT = 'reject'

@@ -112,7 +112,8 @@ def board(activeTabCourseId, pageNum):
                                                     c.articleIndex).first().\
                                                                     count
             articleRecords = get_page_record(articlesOnBoardSub,
-                                             pageNum = pageNum).all()
+                                             pageNum = pageNum,
+                                             LIST = int(15)).all()
         except Exception:
             count = 0
             articleRecords = []
@@ -132,7 +133,8 @@ def board(activeTabCourseId, pageNum):
                                articleNoticeRecords =  articleNoticeRecords,
                                myCourses = myCourses,
                                pages = get_page_pointed(pageNum,
-                                                        count),
+                                                        count,
+                                                        int(15)),
                                Filters = Filters,
                                activeTabCourseId = activeTabCourseId) # classType, condition은 검색 할 때 필요한 변수    
         
