@@ -6,13 +6,13 @@ class GradingCommand(object):
     def MakeCompileCommand(usingLang, filePath):
         # make compile command 
         if usingLang == ListResources.const.Lang_C:
-            return "%s%s%s" % ('gcc ', filePath, '*.c -o main -lm -w 2>error.err')
+            return "%s %s%s" % ('gcc', filePath, '*.c -o main -lm -w 2>error.err')
             
         elif usingLang == ListResources.const.Lang_CPP:
-            return "%s%s%s" % ('g++ ', filePath, '*.cpp -o main -lm -w 2>error.err')
+            return "%s %s%s" % ('g++', filePath, '*.cpp -o main -lm -w 2>error.err')
         
         elif usingLang == ListResources.const.Lang_JAVA:
-            return "%s%s%s" % ('javac -nowarn -d ./ ', filePath, '*.java 2>error.err')
+            return "%s %s%s" % ('javac -nowarn -d ./', filePath, '*.java 2>error.err')
         
     @staticmethod
     def MakeExecuteCommand(usingLang, runFileName, version):
@@ -24,12 +24,12 @@ class GradingCommand(object):
             if version == ListResources.const.PYTHON_VERSION_TWO:
                 append('/usr/bin/python')
                 append('/usr/bin/python')
-                append(runFileName + '.py')
+                append(runFileName)
                 
             elif version == ListResources.const.PYTHON_VERSION_THREE:
                 append('/usr/local/bin/python3')
                 append('/usr/local/bin/python3')
-                append(runFileName + '.py')
+                append(runFileName)
                 
         elif usingLang == ListResources.const.Lang_C or\
              usingLang == ListResources.const.Lang_CPP:
@@ -48,13 +48,13 @@ class GradingCommand(object):
         # make execution command
         if usingLang == ListResources.const.Lang_PYTHON:
             if version == ListResources.const.PYTHON_VERSION_TWO:
-                return "%s%s%s" % ('python ', runFileName, '.py 1>output.txt 2>core.1')
+                return "%s %s %s" % ('python', runFileName, '1>output.txt 2>core.1')
             elif version == ListResources.const.PYTHON_VERSION_THREE:
-                return "%s%s%s" % ('python3 ', runFileName, '.py 1>output.txt 2>core.1')
+                return "%s %s %s" % ('python3', runFileName, '1>output.txt 2>core.1')
         
         elif usingLang == ListResources.const.Lang_C or\
              usingLang == ListResources.const.Lang_CPP:
             return './main 1>output.txt'
         
         elif usingLang == ListResources.const.Lang_JAVA:
-            return "%s%s%s" % ('java ', runFileName, ' 1>output.txt 2>core.1')
+            return "%s %s %s" % ('java', runFileName, '1>output.txt 2>core.1')
