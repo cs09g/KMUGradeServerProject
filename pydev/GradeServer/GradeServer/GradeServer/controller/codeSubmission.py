@@ -30,6 +30,9 @@ from GradeServer.tasks import Grade
 
 # Initialize the Flask application
 PATH = GradeServerConfig.CURRENT_FOLDER
+def remove_space_in_problemName(problemId):
+    problemName = get_problem_name(problemId)
+    return problemName.replace(' ', '')
 
 def make_path(PATH, memberId, courseId, problemId, problemName):
     memberName = get_member_name(memberId)
@@ -134,9 +137,7 @@ def submit_error(tempPath, courseId, pageNum, error, browserName = None, browser
 @login_required
 def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browserVersion):
     memberId = session[SessionResources.const.MEMBER_ID]
-    problemName = get_problem_name(problemId)
-    problemName = problemName.replace(' ', '')
-    print problemName
+    problemName = remove_space_in_problemName(problemId)
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)
@@ -158,8 +159,7 @@ def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browser
 @login_required
 def to_process_written_code(courseId, pageNum, problemId):
     memberId = session[SessionResources.const.MEMBER_ID]
-    problemName = get_problem_name(problemId)
-    problemName = problemName.replace(' ', '')
+    problemName = remove_space_in_problemName(problemId)
     filePath, tempPath = make_path(PATH, memberId, courseId, problemId, problemName)
     try:
         os.mkdir(tempPath)
