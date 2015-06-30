@@ -110,7 +110,14 @@ $.getScript('../../static/bootstrap/js/Chart.js',function(){
 						      {% endif -%}'>
 						<td>
 							{%- if submissionRecord.problemName %}
-							{{ submissionRecord.problemName }}
+							<script> 
+								// if title is longer than 15 charater, change it to short
+								var problemName = "{{ submissionRecord.problemName }}"; 
+								if(problemName.length >= 15){
+									problemName = problemName.substring(0, 13) + "...";
+								}
+								document.write(problemName);
+							</script>
 							{% endif -%}
 						<td  class="hidden-phone hidden-tablet">
 							{%- if submissionRecord.status %}
