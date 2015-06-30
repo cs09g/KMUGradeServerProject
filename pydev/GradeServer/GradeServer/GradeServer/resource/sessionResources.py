@@ -7,6 +7,7 @@ class SessionResources(object):
 
     # session
     const.MEMBER_ID = 'memberId'
+    const.MEMBER_NAME = 'memberName'
     const.AUTHORITY = 'authority'
     const.LAST_ACCESS_DATE = 'lastAccessDate'
     const.OWN_CURRENT_COURSES = 'ownCurrentCourses'

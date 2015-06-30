@@ -25,13 +25,23 @@ from GradeServer.GradeServer_blueprint import GradeServer
 @login_required
 def download_file(courseId, courseName):
     try:
-        directory = '/mnt/shared/Problems/10004_HelloWorld/'
-        filename = '10004_HelloWorld.zip'
+        # Absolute Path
+        directory = '/mnt/shared/PastCourses/' + str(courseId) + '_' + courseName
+        # File Name StudentId_MemberName.zip
+        filename = session[SessionResources().const.MEMBER_ID] + '_'\
+        + session[SessionResources().const.MEMBER_NAME] + '.zip'
         
         Log.info(session[SessionResources().const.MEMBER_ID] \
                  + ' download '\
-                 + courseId + '_' + courseName)
+                 + directory\
+                 + '/'  + filename)
         
         return send_from_directory(directory = directory, filename = filename)
     except Exception as e:
-       Log.info(e)
+       Log.info(str(e))
+       
+              # 메인 페이지로 옮기기
+       from flask import redirect, url_for, flash
+       from GradeServer.resource.routeResources import RouteResources
+       flash('Not Found File')
+       return redirect(url_for(RouteResources().const.SIGN_IN))

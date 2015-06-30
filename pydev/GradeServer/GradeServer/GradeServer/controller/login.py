@@ -102,6 +102,7 @@ def sign_in():
                         flash(get_message('login'))
                         #push Session Cache 
                         session[SessionResources().const.MEMBER_ID] = memberId
+                        session[SessionResources().const.MEMBER_NAME] = check.memberName
                         session[SessionResources().const.AUTHORITY] = list(check.authority)
                         session[SessionResources().const.LAST_ACCESS_DATE] = datetime.now()
                         
