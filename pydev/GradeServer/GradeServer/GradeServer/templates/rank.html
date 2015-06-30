@@ -88,14 +88,14 @@ $(function() {
 										{% if rankMemberRecord.memberId %}{{ rankMemberRecord.memberId }}{% endif %}
 									</a>
 								<td>
-									{%- if rankMemberRecord.comment %}{{ rankMemberRecord.comment }}
+									{%- if rankMemberRecord.comment %}
 									<script> 
-										// if title is longer than 10 charater, change it to short
+										// if title is longer than 20 charater, change it to short
 										var comment = "{{ rankMemberRecord.comment }}"; 
-										if(comment.length >= 10){
-											comment = comment.substring(0,10)+"...";
+										if(comment.length >= 20){
+											comment = comment.substring(0, 17) + "...";
 										}
-										document.write(newTitle);
+										document.write(comment);
 									</script>
 									{% endif -%}
 								<td>{% if rankMemberRecord.solutionCheckCount %}{{ rankMemberRecord.solutionCheckCount }}{% endif %}
@@ -163,18 +163,17 @@ $(function() {
 								</a>
 							<td>
 								{% if rankMemberRecord.comment %}
-								{{ rankMemberRecord.comment }}
 								<script> 
-									// if title is longer than 10 charater, change it to short
+									// if title is longer than 20 charater, change it to short
 									var comment = "{{ rankMemberRecord.comment }}"; 
-									if(comment.length >= 10){
-										comment = comment.substring(0,10)+"...";
+									if(comment.length >= 20){
+										comment = comment.substring(0, 17) + "...";
 									}
-									document.write(newTitle);
+									document.write(comment);
 								</script>
 								{% endif %}
-							<td>{% if rankMemberRecord.sumOfSolvedProblemCount %}{{ rankMemberRecord.sumOfSolvedProblemCount }}{% endif %}
 							<td>{% if rankMemberRecord.solutionCheckCount %}{{ rankMemberRecord.solutionCheckCount }}{% endif %}
+							<td>{% if rankMemberRecord.sumOfSolvedProblemCount %}{{ rankMemberRecord.sumOfSolvedProblemCount }}{% endif %}
 							<td>{% if rankMemberRecord.solvedRate %}{{ rankMemberRecord.solvedRate }}%{% endif %}
 						</tr>
 						{% endfor -%}

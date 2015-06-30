@@ -98,12 +98,12 @@
 							<td>
 								<a href= '{{ url_for ("GradeServer.read", activeTabCourseId = activeTabCourseId, articleIndex = articleNoticeRecord.articleIndex) }}'>
 									<script> 
-										// if title is longer than 10 charater, change it to short
-										var newTitle = "{{ articleNoticeRecord.title }}"; 
-										if(newTitle.length >= 10){
-											newTitle = newTitle.substring(0,10)+"...";
+										// if title is longer than 15 charater, change it to short
+										var title = "{{ articleNoticeRecord.title }}"; 
+										if(title.length >= 15){
+											title = title.substring(0,13)+"...";
 										}
-										document.write(newTitle);
+										document.write(title);
 									</script>
 								</a>
 								{%- if articleNoticeRecord.replyCount > 0 %}
@@ -198,12 +198,12 @@
 						<td>
 							<a href= '{{ url_for ("GradeServer.read", activeTabCourseId = activeTabCourseId, articleIndex = articleNoticeRecord.articleIndex) }}'>
 								<script> 
-									// if title is longer than 10 charater, change it to short
-									var newTitle = "{{ articleNoticeRecord.title }}"; 
-									if(newTitle.length >= 10){
-										newTitle = newTitle.substring(0,10)+"...";
+									// if title is longer than 15 charater, change it to short
+									var title = "{{ articleNoticeRecord.title }}"; 
+									if(title.length >= 15){
+										title = title.substring(0, 13)+"...";
 									}
-									document.write(newTitle);
+									document.write(title);
 								</script>
 							</a>
 							{%- if articleNoticeRecord.replyCount > 0 %}
