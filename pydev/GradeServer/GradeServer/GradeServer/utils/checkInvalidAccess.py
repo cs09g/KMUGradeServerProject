@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from flask import request
-from functools import wraps
+from functools import wraps, lru_cache
 
 from GradeServer.utils.utilMessages import unknown_error, get_message
 
+@lru_cache(maxsize=none)
 def check_invalid_access(f):
     """
     Check invalid access through URL 
