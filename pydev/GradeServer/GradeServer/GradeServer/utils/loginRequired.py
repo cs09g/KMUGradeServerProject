@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from flask import session, request, current_app, redirect, url_for
-from functools import wraps, lru_cache
-
+from functools import wraps
+from repoze.lru import lru_cache
 from GradeServer.resource.routeResources import RouteResources
 from GradeServer.resource.sessionResources import SessionResources
 
-@lru_cache(maxsize=none)
+@lru_cache(maxsize=300)
 def login_required(f):
     """현재 사용자가 로그인 상태인지 확인하는 데코레이터
     로그인 상태에서 접근 가능한 함수에 적용함
