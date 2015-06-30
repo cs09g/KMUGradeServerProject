@@ -8,7 +8,7 @@ from GradeServer.utils.loginRequired import login_required
 from GradeServer.utils.checkInvalidAccess import check_invalid_access
 
 from GradeServer.utils.utilPaging import get_page_pointed, get_page_record
-from GradeServer.utils.utilQuery import select_count
+from GradeServer.utils.utilQuery import select_count, select_course_information
 from GradeServer.utils.utilSubmissionQuery import submissions_sorted, select_last_submissions, select_all_submissions, select_current_submissions,\
                                                   select_submissions_peoples_counts, select_solved_peoples_counts, select_submitted_records_of_problem,\
                                                   select_problem_chart_submissions, select_solved_submissions, select_submitted_files
@@ -27,11 +27,16 @@ from GradeServer.resource.sessionResources import SessionResources
 from GradeServer.resource.languageResources import LanguageResources
 
 from GradeServer.database import dao
-from GradeServer.GradeServer_blueprint import GradeServer
+from GradeServer.GradeServer_logger import Log
+from GradeServer.GradeServer_blueprint import GradeServer 
 
-from GradeServer.model.registeredCourses import RegisteredCourses
-from itertools import count
-
+@GradeServer.teardown_request
+def close_db_session(exception = None):
+    '''요청이 완료된 후에 db연결에 사용된 세션을 종료함'''
+    try:
+        dao.remove()
+    except Exception as e:
+        Log.error(str(e))
 
 @GradeServer.route('/problem_list/<courseId>/page<int:pageNum>')
 @check_invalid_access
@@ -64,10 +69,7 @@ def problem_list(courseId, pageNum):
             
         # Get Course Information
         try:
-            courseRecords = dao.query(RegisteredCourses.courseId,
-                                      RegisteredCourses.courseName).\
-                                filter(RegisteredCourses.courseId == courseId).\
-                                first()
+            courseRecords = select_course_information(courseId).first()
         except:
             courseRecords = []
         

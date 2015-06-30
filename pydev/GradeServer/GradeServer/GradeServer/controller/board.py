@@ -22,7 +22,8 @@ from GradeServer.utils.utilMessages import unknown_error, get_message
 from GradeServer.utils.utilArticleQuery import join_courses_names, select_articles, select_article, select_sorted_articles, select_article_is_like,\
                                                select_replies_on_board, select_replies_on_board_is_like, select_replies_on_board_like, update_view_reply_counting,\
                                                update_article_like_counting, update_article_is_like, update_replies_on_board_like_counting,\
-                                               update_replies_on_board_is_like, update_replies_on_board_delete, update_replies_on_board_modify, update_article_delete
+                                               update_replies_on_board_is_like, update_replies_on_board_delete, update_replies_on_board_modify, update_article_delete,\
+                                               insert_artitles_on_board, insert_likes_on_board, insert_replies_on_board, insert_likes_on_reply_of_board
 from GradeServer.utils.utilQuery import select_accept_courses, select_count, select_current_courses
 
 from GradeServer.utils.filterFindParameter import FilterFindParameter
@@ -38,15 +39,9 @@ from GradeServer.resource.otherResources import OtherResources
 from GradeServer.resource.sessionResources import SessionResources
 from GradeServer.resource.languageResources import LanguageResources
 
-from GradeServer.model.articlesOnBoard import ArticlesOnBoard
-from GradeServer.model.likesOnBoard import LikesOnBoard
-from GradeServer.model.repliesOnBoard import RepliesOnBoard
-from GradeServer.model.likesOnReplyOfBoard import LikesOnReplyOfBoard
-
 from GradeServer.database import dao
 from GradeServer.GradeServer_logger import Log
 from GradeServer.GradeServer_blueprint import GradeServer 
-from itertools import count
 
 @GradeServer.teardown_request
 def close_db_session(exception = None):
@@ -274,8 +269,8 @@ def read(activeTabCourseId, articleIndex, error = None):
                                                  LIKE_INCREASE = LIKE_INCREASE)
                     if not isLikeCancelled:
                         # Insert Like
-                        dao.add(LikesOnBoard(articleIndex = articleIndex,
-                                             boardLikerId = session[SessionResources().const.MEMBER_ID]))
+                        dao.add(insert_likes_on_board(articleIndex = articleIndex,
+                                                      boardLikerId = session[SessionResources().const.MEMBER_ID]))
                     else:
                         # Update Like
                         update_article_is_like(articleParameter = ArticleParameter(articleIndex = articleIndex,
@@ -292,11 +287,11 @@ def read(activeTabCourseId, articleIndex, error = None):
                     boardReplyContent = request.form['writeArticleReply']
                     
                     if boardReplyContent:
-                        dao.add(RepliesOnBoard(articleIndex = articleIndex,
-                                               boardReplierId = session[SessionResources().const.MEMBER_ID],
-                                               boardReplyContent = boardReplyContent,
-                                               boardReplierIp = socket.gethostbyname(socket.gethostname()),
-                                               boardRepliedDate = datetime.now()))
+                        dao.add(insert_replies_on_board(articleIndex = articleIndex,
+                                                       boardReplierId = session[SessionResources().const.MEMBER_ID],
+                                                       boardReplyContent = boardReplyContent,
+                                                       boardReplierIp = socket.gethostbyname(socket.gethostname()),
+                                                       boardRepliedDate = datetime.now()))
                         # remove duplicated read count
                         update_view_reply_counting(articleParameter = ArticleParameter(articleIndex = articleIndex),
                                                    VIEW_INCREASE = -1,
@@ -339,8 +334,8 @@ def read(activeTabCourseId, articleIndex, error = None):
                                                           LIKE_INCREASE = LIKE_INCREASE)
                     if not isReplyLike:
                         # Insert Like
-                        dao.add(LikesOnReplyOfBoard(boardReplyIndex = int(form[idIndex:]),
-                                                    boardReplyLikerId = session[SessionResources().const.MEMBER_ID]))
+                        dao.add(insert_likes_on_reply_of_board(boardReplyIndex = int(form[idIndex:]),
+                                                               boardReplyLikerId = session[SessionResources().const.MEMBER_ID]))
                     else:
                         # Update Like
                         update_replies_on_board_is_like(replyParameter = ReplyParameter(boardReplyIndex = int(form[idIndex:]),
@@ -538,14 +533,14 @@ def write(activeTabCourseId, articleIndex, error =None):
                             isNotice = ENUMResources().const.FALSE
                             # user None courseId reject 
                             
-                        newPost = ArticlesOnBoard(problemId = None,
-                                                  courseId = courseId,
-                                                  writerId = session[SessionResources().const.MEMBER_ID],
-                                                  isNotice = isNotice,
-                                                  title = title,
-                                                  content = content,
-                                                  writtenDate = currentDate,
-                                                  writerIp = currentIP)
+                        newPost = insert_artitles_on_board(problemId = None,
+                                                           courseId = courseId,
+                                                           writerId = session[SessionResources().const.MEMBER_ID],
+                                                           isNotice = isNotice,
+                                                           title = title,
+                                                           content = content,
+                                                           writtenDate = currentDate,
+                                                           writerIp = currentIP)
                         dao.add(newPost)
                         # Commit Exception
                         try:

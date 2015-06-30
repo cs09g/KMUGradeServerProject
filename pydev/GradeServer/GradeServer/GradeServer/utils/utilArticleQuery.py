@@ -50,7 +50,6 @@ def select_articles(activeTabCourseId, isDeleted = ENUMResources().const.FALSE):
                           or_(ArticlesOnBoard.courseId == activeTabCourseId,
                               ArticlesOnBoard.courseId == None))
  
- 
 '''
 Board Article
 '''
@@ -121,6 +120,47 @@ def select_article_is_like(articleParameter = ArticleParameter()):
                       LikesOnBoard.boardLikerId == articleParameter.boardLikerId)
                
 
+'''
+Insert Articles
+'''
+def insert_artitles_on_board(problemId, courseId, writerId, isNotice, title, content, writtenDate, writerIp):
+    return ArticlesOnBoard(problemId = problemId,
+                           courseId = courseId,
+                           writerId = writerId,
+                           isNotice = isNotice,
+                           title = title,
+                           content = content,
+                           writtenDate = writtenDate,
+                           writerIp = writerIp)
+    
+'''
+Insert Article likes
+'''
+def insert_likes_on_board(articleIndex, boardLikerId):
+    return LikesOnBoard(articleIndex = articleIndex,
+                        boardLikerId = boardLikerId)
+    
+
+
+''' 
+Insert Replies on Board
+'''
+def insert_replies_on_board(articleIndex, boardReplierId, boardReplyContent, boardReplierIp, boardRepliedDate):
+    return RepliesOnBoard(articleIndex = articleIndex,
+                          boardReplierId = boardReplierId,
+                          boardReplyContent = boardReplyContent,
+                          boardReplierIp = boardReplierIp,
+                          boardRepliedDate = boardRepliedDate)
+    
+
+'''
+Insert LikesOnRepliesBoard
+'''
+def insert_likes_on_reply_of_board(boardReplyIndex, boardReplyLikerId): 
+    return LikesOnReplyOfBoard(boardReplyIndex = boardReplyIndex,
+                               boardReplyLikerId = boardReplyLikerId)
+    
+    
 '''
 Board Article Like Counting
 '''

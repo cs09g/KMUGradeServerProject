@@ -12,7 +12,7 @@ from GradeServer.model.registeredProblems import RegisteredProblems
 from GradeServer.utils.memberCourseProblemParameter import MemberCourseProblemParameter
 from GradeServer.utils.utilSubmissionQuery import select_last_submissions
 from GradeServer.utils.utilProblemQuery import select_problem_informations
-from GradeServer.utils.utilQuery import select_match_member
+from GradeServer.utils.utilQuery import select_match_member, select_course_information
         
 from GradeServer.utils.utilMessages import unknown_error, get_message
 from GradeServer.resource.enumResources import ENUMResources
@@ -34,13 +34,10 @@ def select_languages(courseId):
                filter(LanguagesOfCourses.courseId == courseId)
                
                
-
 def get_course_name(courseId):
     try:
-        courseName = dao.query(RegisteredCourses.courseName).\
-                         filter(RegisteredCourses.courseId == courseId).\
-                         first().\
-                         courseName
+        courseName = select_course_information(courseId).first().\
+                                                         courseName
         return courseName
     except Exception as e:
         return unknown_error(get_message('dbError'))
