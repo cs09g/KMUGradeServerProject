@@ -60,6 +60,13 @@ def select_count(keySub):
 
 
 '''
+Course Information
+'''
+def select_course_information(courseId):
+    return dao.query(RegisteredCourses).\
+               filter(RegisteredCourses.courseId == courseId)
+               
+'''
 허용된 과목 정보
 '''
 def select_accept_courses():
