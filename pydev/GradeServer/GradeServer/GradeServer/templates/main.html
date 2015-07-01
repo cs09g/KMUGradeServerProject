@@ -64,6 +64,7 @@ So If you use 'LanguageResources' in this page without session checking, it will
 								<li class="nav-header">
 									{{ LanguageResources.const.CurrentCourse[session['language']] }}
 								</li>
+								{% set currentCourses, pastCourses = get_current_past_courses() %}
 								{%- if currentCourses %}
 									{%- for course in currentCourses %}
 									<li>

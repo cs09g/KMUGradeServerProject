@@ -112,3 +112,28 @@ def select_past_courses(myCourses):
 def select_current_courses(myCourses):
     return dao.query(myCourses).\
                filter(myCourses.c.endDateOfCourse >= datetime.now())
+               
+'''
+Return Current, Past courses
+'''
+from repoze.lru import lru_cache
+from GradeServer.GradeServer_blueprint import GradeServer
+@lru_cache(maxsize = 256)
+@GradeServer.context_processor
+def utility_processor():
+    def get_current_past_courses():
+        # Init Courses 
+        currentCourses, pastCourses = [], []
+        # Login status
+        if session:   
+            courses = select_accept_courses().subquery()
+            try:
+                currentCourses = select_current_courses(courses).all()
+                pastCourses = select_past_courses(courses).all()
+            except Exception:
+                pass
+            
+            return (currentCourses, pastCourses)
+        
+    return dict(get_current_past_courses = get_current_past_courses)
+    
