@@ -64,8 +64,8 @@ So If you use 'LanguageResources' in this page without session checking, it will
 								<li class="nav-header">
 									{{ LanguageResources.const.CurrentCourse[session['language']] }}
 								</li>
-								{%- if session[SessionResources.const.OWN_CURRENT_COURSES] %}
-									{%- for course in session[SessionResources.const.OWN_CURRENT_COURSES] %}
+								{%- if currentCourses %}
+									{%- for course in currentCourses %}
 									<li>
 										<a class="currentClasses main-checker" 
 											href="{{ url_for('GradeServer.problem_list', courseId=course.courseId, pageNum=1) }}" >
@@ -82,8 +82,8 @@ So If you use 'LanguageResources' in this page without session checking, it will
 								<li class="nav-header">
 									{{ LanguageResources.const.PastCourse[session['language']] }}
 								</li>
-								{%- if session[SessionResources.const.OWN_PAST_COURSES] %}
-									{%- for course in session[SessionResources.const.OWN_PAST_COURSES] %}
+								{%- if pastCourses %}
+									{%- for course in pastCourses %}
 									<li>
 										<a class="pastClasses main-checker"
 											href="{{ url_for('GradeServer.download_file', courseId=course.courseId, courseName = course.courseName) }}">
