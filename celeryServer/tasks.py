@@ -12,10 +12,11 @@ ROOT_CONTAINER_DIRECTORY = '/container'
 
 @app.task(name = 'task.Grade')
 def Grade(filePath, problemPath, stdNum, problemNum, gradeMethod, caseCount,
-          limitTime, limitMemory, usingLang, version, courseNum, submitCount, problemName):
+          limitTime, limitMemory, usingLang, version, courseNum, submitCount,
+          problemName):
     worker_num = current_process().index % MAX_CONTAINER_COUNT + 1
     
-    saveDirectoryName = "%s|%s|%s|%i" % (stdNum, problemNum, courseNum, submitCount)
+    saveDirectoryName = "%s_%s_%s_%i" % (stdNum, problemNum, courseNum, submitCount)
     sharingDirName = "%s%i/%s" % (ROOT_CONTAINER_DIRECTORY, worker_num,
                             saveDirectoryName)
     argsList = "%s %s %s %s %i %i %i %s %s %s" % (filePath, problemPath,
