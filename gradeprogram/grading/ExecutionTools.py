@@ -53,7 +53,7 @@ class ExecutionTools(object):
         if not result:
             self.ResultError(result, userTime, usingMem)
         
-        return 'Grading', userTime, usingMem
+        return result, userTime, usingMem
     
     def RunProgram(self, runCommandList):
         os.nice(19)
@@ -84,7 +84,7 @@ class ExecutionTools(object):
             wpid, status, res = os.wait4(pid,0)
     
             if os.WIFEXITED(status):
-                return True, res[0], usingMem
+                return 'Grading', res[0], usingMem
             
             exitCode = os.WEXITSTATUS(status)
             if exitCode != 5 and exitCode != 0 and exitCode != 17:
