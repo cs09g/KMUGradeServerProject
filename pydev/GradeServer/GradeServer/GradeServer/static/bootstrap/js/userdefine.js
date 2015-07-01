@@ -27,9 +27,9 @@ var textarea = $('#getCode');
 function selectLanguage(selectObj) {
 	var mode;
 	var theme;
-	if(selectObj.value == 1 || selectObj.value == 2){ mode = "c_cpp"; }
-	if(selectObj.value == 3){ mode = "java"; }
-	if(selectObj.value == 4 || selectObj.value == 5){ mode = "python"; }
+	if(selectObj.value == "C" || selectObj.value == "C++"){ mode = "c_cpp"; }
+	if(selectObj.value == "JAVA"){ mode = "java"; }
+	if(selectObj.value == "PYTHON"){ mode = "python"; }
 	if(selectObj.value == 6){ theme = "chrome"; }
 	if(selectObj.value == 7){ theme = "clouds"; }
 	if(selectObj.value == 8){ theme = "eclipse"; }
