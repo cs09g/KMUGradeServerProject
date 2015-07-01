@@ -104,7 +104,7 @@ class ExecutionTools(object):
         fileLines = FileTools.ReadFileLines(procFileOpenCommand)
         split = string.split
 
-        for i in range(15,20):
+        for i in xrange(15,20):
             index = fileLines[i].find('VmRSS')
             if index != -1:
                 words = split(fileLines[i])
