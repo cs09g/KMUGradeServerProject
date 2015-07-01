@@ -61,7 +61,6 @@ def sign_in():
     from GradeServer.resource.languageResources import LanguageResources
 
     error = None
-    
     if request.method == 'POST':
         checker = True
         language = {'kr':0, # default
@@ -113,12 +112,16 @@ def sign_in():
                         # Get My Accept Courses
                         try:
                             session[SessionResources().const.OWN_CURRENT_COURSES] = select_current_courses(ownCourses).all()
+                            currentCourses = select_current_courses(ownCourses).all()
                         except Exception:
                             session[SessionResources().const.OWN_CURRENT_COURSES] = []
+                            currentCourses = []
                         try:
                             session[SessionResources().const.OWN_PAST_COURSES] = select_past_courses(ownCourses).all()
+                            pastCourses = select_past_courses(ownCourses).all()
                         except Exception:
                             session[SessionResources().const.OWN_PAST_COURSES] = []
+                            pastCourses = []
                         update_recent_access_date(memberId)
                         # Commit Exception
                         try:
@@ -131,11 +134,28 @@ def sign_in():
                 # Not Exist MemberId
                 except Exception:
                     error = get_message('notExists')
+        
+    else:#if request.method == 'POST'
+        # Init Courses 
+        currentCourses, pastCourses = [], []
+        # Login status
+        if session:   
+            courses = select_accept_courses().subquery()
+            try:
+                currentCourses = select_current_courses(courses).all()
+            except Exception:
+                pass
+            try:
+                pastCourses = select_past_courses(courses).all()
+            except Exception:
+                pass
             
     return render_template(HTMLResources().const.MAIN_HTML,
                            SETResources = SETResources,
                            SessionResources = SessionResources,
                            LanguageResources = LanguageResources,
+                           currentCourses = currentCourses,
+                           pastCourses =pastCourses,
                            noticeRecords = select_notices(),
                            topCoderId = select_top_coder(),
                            error = error)
