@@ -7,13 +7,18 @@ from sqlalchemy import func
 from GradeServer.utils.memberCourseProblemParameter import MemberCourseProblemParameter
 
 from GradeServer.resource.setResources import SETResources
+from GradeServer.resource.enumResources import ENUMResources
+from GradeServer.resource.languageResources import LanguageResources
+from GradeServer.resource.routeResources import RouteResources
+from GradeServer.resource.messageResources import MessageResources
+from GradeServer.resource.htmlResources import HTMLResources
+from GradeServer.resource.otherResources import OtherResources
 from GradeServer.resource.sessionResources import SessionResources
 
 from GradeServer.database import dao
 from GradeServer.model.members import Members
 from GradeServer.model.registeredCourses import RegisteredCourses
 from GradeServer.model.registrations import Registrations
-
         
         
 '''
@@ -114,13 +119,14 @@ def select_current_courses(myCourses):
                filter(myCourses.c.endDateOfCourse >= datetime.now())
                
 '''
-Return Current, Past courses
+Template
 '''
 from repoze.lru import lru_cache
 from GradeServer.GradeServer_blueprint import GradeServer
 @lru_cache(maxsize = 256)
 @GradeServer.context_processor
 def utility_processor():
+    # Return Current, Past courses
     def get_current_past_courses():
         # Init Courses 
         currentCourses, pastCourses = [], []
@@ -135,5 +141,37 @@ def utility_processor():
             
             return (currentCourses, pastCourses)
         
-    return dict(get_current_past_courses = get_current_past_courses)
+    def get_enum_resources():
+        return ENUMResources
+    
+    def get_html_resources():
+        return HTMLResources
+    
+    def get_language_resources():
+        return LanguageResources
+    
+    def get_message_resources():
+        return MessageResources
+    
+    def get_other_resources():
+        return OtherResources
+    
+    def get_route_resources():
+        return RouteResources
+    
+    def get_session_resources():
+        return SessionResources
+    
+    def get_set_resources():
+        return SETResources
+    
+    return dict(get_current_past_courses = get_current_past_courses,
+                ENUMResources = get_enum_resources,
+                HTMLResources = get_html_resources,
+                LanguageResources =get_language_resources,
+                MessageResources = get_message_resources,
+                OtherResources = get_other_resources,
+                RouteResources = get_route_resources,
+                SessionResources = get_session_resources,
+                SETResources = get_set_resources)
     

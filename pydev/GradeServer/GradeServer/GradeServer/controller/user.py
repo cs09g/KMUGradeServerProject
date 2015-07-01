@@ -17,11 +17,8 @@ from GradeServer.utils.utilQuery import select_count, select_match_member
 from GradeServer.utils.utilSubmissionQuery import submissions_sorted, select_all_submissions, select_member_chart_submissions
 from GradeServer.utils.utilUserQuery import join_member_informations, update_member_informations
 
-from GradeServer.resource.setResources import SETResources
 from GradeServer.resource.htmlResources import HTMLResources
 from GradeServer.resource.routeResources import RouteResources
-from GradeServer.resource.sessionResources import SessionResources
-from GradeServer.resource.languageResources import LanguageResources
 
 from GradeServer.database import dao
 
@@ -86,9 +83,6 @@ def submission_record(memberId, sortCondition, pageNum):
             submissionRecords = []
             
         return render_template(HTMLResources().const.SUBMISSION_RECORD_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                memberId = memberId,
                                sortCondition = sortCondition,
                                submissionRecords = submissionRecords,
@@ -162,9 +156,6 @@ def id_check(select, error = None):
                 raise e
                
     return render_template(HTMLResources().const.ID_CHECK_HTML,
-                           SETResources = SETResources,
-                           SessionResources = SessionResources,
-                           LanguageResources = LanguageResources,
                            error = error)
 
 """
@@ -246,9 +237,6 @@ def edit_personal(error = None):
                 error = get_message('wrongPassword')
         
         return render_template(HTMLResources().const.EDIT_PERSONAL_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                memberInformation = memberInformation,
                                contactNumber = contactNumber,
                                emailAddress = emailAddress,

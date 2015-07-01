@@ -24,7 +24,6 @@ from GradeServer.resource.htmlResources import HTMLResources
 from GradeServer.resource.routeResources import RouteResources
 from GradeServer.resource.otherResources import OtherResources
 from GradeServer.resource.sessionResources import SessionResources
-from GradeServer.resource.languageResources import LanguageResources
 
 from GradeServer.database import dao
 from GradeServer.GradeServer_logger import Log
@@ -74,9 +73,6 @@ def problem_list(courseId, pageNum):
             courseRecords = []
         
         return render_template(HTMLResources().const.PROBLEM_LIST_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                courseRecords = courseRecords,
                                problemListRecords = problemListRecords,
                                pages = get_page_pointed(pageNum = pageNum,
@@ -125,9 +121,6 @@ def problem(courseId, problemId, pageNum):
             browserVersion = request.user_agent.version
             print browserName, browserVersion
             return render_template(HTMLResources().const.PROBLEM_HTML,
-                                   SETResources = SETResources,
-                                   SessionResources = SessionResources,
-                                   LanguageResources = LanguageResources,
                                    courseId = courseId,
                                    problemId = problemId,
                                    problemInformation = problemInformation,
@@ -227,9 +220,6 @@ def problem_record(courseId, problemId, sortCondition = OtherResources().const.R
             problemSolvedMemberRecords = []
         
         return render_template(HTMLResources().const.PROBLEM_RECORD_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                courseId = courseId,
                                problemSolvedMemberRecords = problemSolvedMemberRecords,
                                problemInformationRecords = problemInformationRecords,
@@ -317,9 +307,6 @@ def submission_code(memberId, courseId, problemId, error = None):
                 fileData = []
                 
             return render_template(HTMLResources().const.SUBMISSION_CODE_HTML,
-                                   SETResources = SETResources,
-                                   SessionResources = SessionResources,
-                                   LanguageResources = LanguageResources,
                                    submittedFileRecords = submittedFileRecords,
                                    fileData = fileData,
                                    problemName = problemName,

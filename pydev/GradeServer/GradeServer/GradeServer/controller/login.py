@@ -55,10 +55,8 @@ def sign_in():
     from GradeServer.utils.utilQuery import select_match_member
     from GradeServer.utils.utilRankQuery import select_top_coder
     
-    from GradeServer.resource.setResources import SETResources
     from GradeServer.resource.htmlResources import HTMLResources
     from GradeServer.resource.sessionResources import SessionResources
-    from GradeServer.resource.languageResources import LanguageResources
 
     error = None
     if request.method == 'POST':
@@ -122,9 +120,6 @@ def sign_in():
                     error = get_message('notExists')
         
     return render_template(HTMLResources().const.MAIN_HTML,
-                           SETResources = SETResources,
-                           SessionResources = SessionResources,
-                           LanguageResources = LanguageResources,
                            noticeRecords = select_notices(),
                            topCoderId = select_top_coder(),
                            error = error)

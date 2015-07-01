@@ -37,7 +37,6 @@ from GradeServer.resource.htmlResources import HTMLResources
 from GradeServer.resource.routeResources import RouteResources
 from GradeServer.resource.otherResources import OtherResources
 from GradeServer.resource.sessionResources import SessionResources
-from GradeServer.resource.languageResources import LanguageResources
 
 from GradeServer.database import dao
 from GradeServer.GradeServer_logger import Log
@@ -121,9 +120,6 @@ def board(activeTabCourseId, pageNum):
         myCourses.insert(0, OtherResources().const.ALL)
         
         return render_template(HTMLResources().const.BOARD_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                articleRecords = articleRecords,
                                articleNoticeRecords =  articleNoticeRecords,
                                myCourses = myCourses,
@@ -198,9 +194,6 @@ def article_notice(activeTabCourseId, pageNum):
         myCourses.insert(0, OtherResources().const.ALL)
         
         return render_template(HTMLResources().const.ARTICLE_NOTICE_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                articleNoticeRecords =  articleNoticeRecords,
                                myCourses = myCourses,
                                pages = get_page_pointed(pageNum,
@@ -212,16 +205,6 @@ def article_notice(activeTabCourseId, pageNum):
         return 
                             
 
-
-def temp():
-    try:
-        print "AAAAAAAAAAAAAAAA"
-    except Exception:
-        pass
-    return unknown_error()
-def temp2():
-    print "BBBBBBBBBBBBBB"
-    
 '''
 게시글을 눌렀을 때 
 글 내용을 보여주는 페이지
@@ -459,9 +442,6 @@ def read(activeTabCourseId, articleIndex, error = None):
             dao.rollback()
             
         return render_template(HTMLResources().const.ARTICLE_READ_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                articlesOnBoard = articlesOnBoard,
                                activeTabCourseId = activeTabCourseId,
                                repliesOnBoardRecords = repliesOnBoardRecords,
@@ -583,9 +563,6 @@ def write(activeTabCourseId, articleIndex, error =None):
             
                 
         return render_template(HTMLResources().const.ARTICLE_WRITE_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                myCourses = myCourses,
                                articlesOnBoard = articlesOnBoard,
                                title = title,
