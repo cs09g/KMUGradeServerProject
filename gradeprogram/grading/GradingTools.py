@@ -47,7 +47,7 @@ class GradingTools(object):
         
         strip = string.rstrip
         
-        for i in range(_min):
+        for i in xrange(_min):
             stdLine = strip(stdLines[i], '\r\n')
             answerLine = strip(answerLines[i], '\r\n')
             
@@ -87,7 +87,7 @@ class GradingTools(object):
         
         command = GradingCommand.MakeMulticaseCommand(self.usingLag, self.version)
         
-        for i in range(1, self.caseCount+1):
+        for i in xrange(1, self.caseCount+1):
             copyCommand = "%s%s%s%i%s" % (self.answerPath, self.problemName,
                                           '_case', i, '_input.txt')
             answerOpenCommand = "%s%s%s%i%s" % (self.answerPath,
@@ -125,7 +125,7 @@ class GradingTools(object):
         
         FileTools.CopyFile(copyCommand, 'checker.out')
         
-        for i in range(1, self.caseCount+1):
+        for i in xrange(1, self.caseCount+1):
             copyCommand = "%s%s%s%i%s" % (self.answerPath, self.problemName,
                                           '_case', i, '_input.txt input.txt')
             FileTools.CopyFile(copyCommand, 'input.txt')
