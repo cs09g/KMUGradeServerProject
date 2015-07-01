@@ -88,11 +88,9 @@ class ExecutionTools(object):
             
             exitCode = os.WEXITSTATUS(status)
             if exitCode != 5 and exitCode != 0 and exitCode != 17:
-                ptrace.kill(pid)
                 return ENUMResources.const.RUNTIME_ERROR, 0, 0 
                 
             elif os.WIFSIGNALED(status):
-                ptrace.kill(pid)
                 return ENUMResources.const.TIME_OVER, res[0], usingMem
             
             else:
