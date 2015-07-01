@@ -34,6 +34,19 @@ So If you use 'LanguageResources' in this page without session checking, it will
 	<!-- 
 	@@ Navigation bar 
 	-->
+	
+	<!-- Set Resources... -->
+	{% set SETResources = SETResources() %}
+	{% set SessionResources = SessionResources() %}
+	{% set LanguageResources = LanguageResources() %}
+	{#
+	{% set ENUMResources = ENUMResources() %}
+	{% set OtherResources = OtherResources() %}
+	{% set MessageResources = MessageResources() %}
+	{% set RouteResources = RouteResources() %}
+	{% set HTMLResources = HTMLResources() %}
+	#}
+	
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">

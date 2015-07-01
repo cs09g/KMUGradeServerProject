@@ -14,11 +14,8 @@ from GradeServer.utils.utilRankQuery import select_ranks, ranks_sorted
 from GradeServer.utils.utilSubmissionQuery import select_last_submissions
 from GradeServer.utils.utilMessages import unknown_error, get_message
 
-from GradeServer.resource.setResources import SETResources
 from GradeServer.resource.htmlResources import HTMLResources
 from GradeServer.resource.otherResources import OtherResources
-from GradeServer.resource.sessionResources import SessionResources
-from GradeServer.resource.languageResources import LanguageResources
 
 from GradeServer.database import dao
 from GradeServer.GradeServer_logger import Log
@@ -106,9 +103,6 @@ def rank(activeTabCourseId, sortCondition, pageNum, error =None):
         myCourses.insert(0, OtherResources().const.ALL)
        
         return render_template(HTMLResources().const.RANK_HTML,
-                               SETResources = SETResources,
-                               SessionResources = SessionResources,
-                               LanguageResources = LanguageResources,
                                activeTabCourseId = activeTabCourseId,
                                sortCondition =  sortCondition,
                                memberRecords = memberRecords,
