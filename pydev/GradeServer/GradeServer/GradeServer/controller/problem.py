@@ -37,12 +37,14 @@ def close_db_session(exception = None):
     except Exception as e:
         Log.error(str(e))
 
+
 @GradeServer.route('/problem_list/<courseId>/page<int:pageNum>')
 @check_invalid_access
 @login_required
 def problem_list(courseId, pageNum):
     """ problem submitting page """
     try:
+        ''' too long '''
         # Get Last Submitted History
         lastSubmission = select_last_submissions(memberCourseProblemParameter = MemberCourseProblemParameter(memberId = session[SessionResources().const.MEMBER_ID],
                                                                                                              courseId = courseId)).subquery()
@@ -140,12 +142,10 @@ def problem(courseId, problemId, pageNum):
         return unknown_error()
     
     
-
 """
     in the main page, it uses methods so 
     before login, need to block to access to other menus
 """
-        
 @GradeServer.route('/problem', methods=['GET', 'POST'])
 @check_invalid_access
 @login_required
@@ -160,6 +160,7 @@ def submit():
         error = "add your source file or write your source code"
     """
     return render_template('/result.html')
+
 
 @GradeServer.route('/problem_record/<courseId>-<problemId>/<sortCondition>')
 @check_invalid_access
@@ -229,7 +230,6 @@ def problem_record(courseId, problemId, sortCondition = OtherResources().const.R
         return unknown_error()
     
     
-
 @GradeServer.route('/submission_code/<memberId>/<courseId>-<problemId>')
 @check_invalid_access
 @login_required
