@@ -131,12 +131,13 @@ Update Login Time
 def update_recent_access_date(memberId):
     from GradeServer.model.members import Members
     
+    ''' doesnt need to add exception handler here? '''
     dao.query(Members).\
         filter(Members.memberId == memberId).\
         update(dict(lastAccessDate = datetime.now()))
         
-"""
         
+"""   
 로그아웃
 """
 from GradeServer.utils.loginRequired import login_required
