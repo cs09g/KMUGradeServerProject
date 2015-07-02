@@ -34,6 +34,7 @@ def remove_space_in_problemName(problemId):
     problemName = get_problem_name(problemId)
     return problemName.replace(' ', '')
 
+
 def make_path(PATH, memberId, courseId, problemId, problemName):
     memberName = get_member_name(memberId)
     courseName = get_course_name(courseId)
@@ -41,8 +42,10 @@ def make_path(PATH, memberId, courseId, problemId, problemName):
     tempPath = '%s/%s_%s/%s_%s/%s_%s_tmp' %(PATH, courseId, courseName, memberId, memberName, problemId, problemName)
     return filePath.replace(' ', ''), tempPath.replace(' ', '')
 
+
 def make_problem_full_name(problemId, problemName):
     return '%s_%s' %(problemId, problemName)
+
 
 def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
     fileIndex = 1
@@ -57,9 +60,9 @@ def file_save(memberId, courseId, problemId, uploadFiles, tempPath, filePath):
         insert_submitted_files(memberId, courseId, problemId, fileIndex, fileName, filePath, fileSize)
         fileIndex += 1
         sumOfSubmittedFileSize += fileSize
-    
-    
+        
     return sumOfSubmittedFileSize
+        
         
 def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmittedFileSize, problemName, filePath, tempPath):
     usedLanguageIndex = get_used_language_index(usedLanguageName)
@@ -88,6 +91,7 @@ def send_to_celery(memberId, courseId, problemId, usedLanguageName, sumOfSubmitt
     os.system("rm -rf %s" % filePath)
     os.rename(tempPath, filePath)
     
+    
 def get_language_name(usedLanguageName, tests):
     if usedLanguageName == OtherResources.const.C:
         languageName = OtherResources.const.C_SOURCE_NAME
@@ -107,6 +111,7 @@ def get_language_name(usedLanguageName, tests):
 
     return languageName
 
+
 def write_code_in_file(tempPath):
     tests = request.form[OtherResources.const.GET_CODE]
     unicode(tests)
@@ -120,6 +125,7 @@ def write_code_in_file(tempPath):
 
     return usedLanguageName, fileName
 
+
 def page_move(courseId, pageNum, browserName = None, browserVersion = None):
     if (browserName == 'msie' and len(browserVersion) != 4) or browserName == None:
         return redirect(url_for(RouteResources.const.PROBLEM_LIST,
@@ -127,10 +133,12 @@ def page_move(courseId, pageNum, browserName = None, browserVersion = None):
                                 pageNum = pageNum))
     return "0"
 
+
 def submit_error(tempPath, courseId, pageNum, error, browserName = None, browserVersion = None):
     os.system("rm -rf %s" % tempPath)
     flash(get_message(error))
     return page_move(courseId, pageNum, browserName, browserVersion)
+
 
 @GradeServer.route('/problem_<courseId>_<problemId>_<pageNum>_<browserName>_<browserVersion>', methods = ['POST'])
 @check_invalid_access
@@ -155,7 +163,10 @@ def to_process_uploaded_files(courseId, problemId, pageNum, browserName, browser
         submit_error(tempPath, courseId, pageNum, 'dbError', browserName, browserVersion)
         
     time.sleep(0.4)
+    
     return page_move(courseId, pageNum, browserName, browserVersion)
+    
+    
 @GradeServer.route('/problem_<courseId>_page<pageNum>_<problemId>', methods = ['POST'])
 @check_invalid_access
 @login_required
@@ -181,4 +192,5 @@ def to_process_written_code(courseId, pageNum, problemId):
         submit_error(tempPath, courseId, pageNum, 'dbError')
         
     time.sleep(0.4)
+    
     return page_move(courseId, pageNum)
